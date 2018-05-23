@@ -1,0 +1,4 @@
+#Lists of combiners
+
+weka.classifiers.meta.RRC.calculators.RRCCalc=\
+ weka.classifiers.meta.RRC.calculators
