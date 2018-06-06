@@ -5,7 +5,7 @@ package weka.classifiers.meta.RRC.calculators;
 
 import java.io.Serializable;
 
-import jdistlib.Beta;
+import net.sourceforge.jdistlib.Beta;
 import weka.classifiers.meta.RRC.tools.Linspace;
 import weka.classifiers.meta.RRC.tools.BetaReverser;
 import weka.core.Utils;

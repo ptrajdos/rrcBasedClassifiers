@@ -26,7 +26,7 @@ Maintainer= Pawel Trajdos pawel.trajdos{at}gmail.com
 License=GPL 3.0
 
 # Description (required)
-Description= The package contains the the implementation of classifiers that uses the RRC classifier.
+Description= The package contains the the implementation of classifiers that uses the RRC meta-classifier.
 
 Changes=---
 

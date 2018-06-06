@@ -3,7 +3,7 @@
  */
 package weka.classifiers.meta.RRC.tools;
 
-import jdistlib.Kumaraswamy;
+import net.sourceforge.jdistlib.Kumaraswamy;
 
 /**
  * @author pawel

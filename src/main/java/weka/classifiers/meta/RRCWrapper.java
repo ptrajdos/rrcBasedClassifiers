@@ -8,7 +8,7 @@ import java.util.Enumeration;
 import java.util.Vector;
 
 import weka.classifiers.Classifier;
-import weka.classifiers.SingleClassifierEnhancer;
+import weka.classifiers.RandomizableSingleClassifierEnhancer;
 import weka.classifiers.meta.RRC.calculators.RRCCalc;
 import weka.classifiers.meta.RRC.calculators.RRCCalcBeta;
 import weka.classifiers.trees.J48;
@@ -23,7 +23,7 @@ import weka.core.Utils;
  * @author pawel
  *
  */
-public abstract class RRCWrapper extends SingleClassifierEnhancer {
+public abstract class RRCWrapper extends RandomizableSingleClassifierEnhancer {
 
 	/**
 	 * 
@@ -52,6 +52,7 @@ public abstract class RRCWrapper extends SingleClassifierEnhancer {
 	 */
 	@Override
 	public void buildClassifier(Instances arg0) throws Exception {
+		this.getCapabilities().testWithFail(arg0);
 		this.m_Classifier.buildClassifier(arg0);
 
 	}
@@ -151,6 +152,7 @@ public abstract class RRCWrapper extends SingleClassifierEnhancer {
 	public Capabilities getCapabilities() {
 		Capabilities baseCaps = super.getCapabilities();
 		baseCaps.disable(Capability.NUMERIC_CLASS);
+		baseCaps.enable(Capability.NOMINAL_CLASS);
 		return baseCaps; 
 	}
 
