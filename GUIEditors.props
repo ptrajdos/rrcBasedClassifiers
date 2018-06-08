@@ -1,3 +1,4 @@
 #generators
 weka.classifiers.meta.RRCWrapper=weka.gui.GenericObjectEditor
 weka.classifiers.meta.RRC.calculators.RRCCalc=weka.gui.GenericObjectEditor
+weka.classifiers.meta.RRC.neighbourhood.NeighbourhoodCalculator =weka.gui.GenericObjectEditor
