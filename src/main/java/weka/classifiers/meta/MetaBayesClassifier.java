@@ -4,8 +4,6 @@
 package weka.classifiers.meta;
 
 import weka.classifiers.Classifier;
-import weka.core.Capabilities;
-import weka.core.Capabilities.Capability;
 import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.Utils;
