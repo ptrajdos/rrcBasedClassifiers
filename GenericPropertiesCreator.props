@@ -3,5 +3,9 @@
 weka.classifiers.meta.RRC.calculators.RRCCalc=\
  weka.classifiers.meta.RRC.calculators
 
- weka.classifiers.meta.RRC.neighbourhood.NeighbourhoodCalculator=\
+weka.classifiers.meta.RRC.neighbourhood.NeighbourhoodCalculator=\
  weka.classifiers.meta.RRC.neighbourhood
+ 
+weka.core.DistanceFunction=\
+ weka.core.distances
+
