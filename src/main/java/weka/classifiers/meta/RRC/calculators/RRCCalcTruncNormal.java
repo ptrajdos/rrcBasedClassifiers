@@ -27,7 +27,8 @@ public class RRCCalcTruncNormal implements RRCCalc, Serializable{
 	
 	public static final double EPS=1E-6;
 	
-	protected boolean reduceSD = false;
+	protected double sdPower=0.5;
+	
 	/**
 	 * 
 	 */
@@ -46,9 +47,8 @@ public class RRCCalcTruncNormal implements RRCCalc, Serializable{
 		if(1-oneProb<EPS) {
 			return 1;
 		}
-		double sd = ((oneProb*(1-oneProb))/(3.0));
-		if(!this.reduceSD)
-			sd = Math.sqrt(sd);
+		double sd = Math.pow(((oneProb*(1-oneProb))/(3.0)),this.sdPower);
+		
 		
 		TruncatedNormal t1 = new TruncatedNormal(oneProb, sd, 0, 1);
 		TruncatedNormal t2 = new TruncatedNormal(1-oneProb, sd, 0, 1);
@@ -91,9 +91,8 @@ public class RRCCalcTruncNormal implements RRCCalc, Serializable{
 				results[i]=1;
 				continue;
 			}
-			double sd = ((oneProb*(1-oneProb))/(3.0));
-			if(!this.reduceSD)
-				sd = Math.sqrt(sd);
+			double sd = Math.pow(((oneProb*(1-oneProb))/(3.0)),this.sdPower);
+			
 			TruncatedNormal t1 = new TruncatedNormal(oneProb, sd, 0, 1);
 			TruncatedNormal t2 = new TruncatedNormal(1-oneProb, sd, 0, 1);
 			
@@ -147,9 +146,8 @@ public class RRCCalcTruncNormal implements RRCCalc, Serializable{
 					correctedPrediction=eps;
 				}
 				
-				sd = (correctedPrediction*(1-correctedPrediction)/(nClass+1));
-				if(!this.reduceSD)
-					sd = Math.sqrt(sd);
+				sd = Math.pow( (correctedPrediction*(1-correctedPrediction)/(nClass+1)),this.sdPower);
+				
 				
 				tNormObjs[cl] = new TruncatedNormal(correctedPrediction, sd, 0, 1);
 				
@@ -197,10 +195,10 @@ public class RRCCalcTruncNormal implements RRCCalc, Serializable{
 				predSum+=finalPredictions[cla];
 				cumSum+=integrationSum;
 			}
-			for(int i=0;i<finalPredictions.length;i++){
-				if(!Utils.eq(0, predSum))
-					finalPredictions[i]/=predSum;
-			}
+			if(!Utils.eq(0, predSum))
+				for(int i=0;i<finalPredictions.length;i++){
+						finalPredictions[i]/=predSum;
+				}
 			
 
 
@@ -208,17 +206,19 @@ return finalPredictions;
 	}
 
 	/**
-	 * @return the reduceSD
+	 * @return the sdPower
 	 */
-	public boolean isReduceSD() {
-		return this.reduceSD;
+	public double getSdPower() {
+		return this.sdPower;
 	}
 
 	/**
-	 * @param reduceSD the reduceSD to set
+	 * @param sdPower the sdPower to set
 	 */
-	public void setReduceSD(boolean reduceSD) {
-		this.reduceSD = reduceSD;
+	public void setSdPower(double sdPower) {
+		this.sdPower = sdPower;
 	}
+
+	
 	
 }

@@ -152,7 +152,7 @@ public abstract class RRCBasedWithValidation extends RRCWrapper {
 			      "SF", 1, "-SF"));
 		 
 		 newVector.addElement(new Option(
-			      "\t Split Factor"+
+			      "\t Number of Crossvalidation splits"+
 		          "(default:" + 2  + ").\n",
 			      "KF", 1, "-KF"));
 		 

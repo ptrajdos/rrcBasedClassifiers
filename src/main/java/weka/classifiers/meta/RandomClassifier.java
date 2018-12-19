@@ -6,18 +6,23 @@ package weka.classifiers.meta;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Random;
+import java.util.Vector;
 
 import org.apache.commons.math3.util.Pair;
 
 import weka.classifiers.AbstractClassifier;
 import weka.classifiers.RandomizableSingleClassifierEnhancer;
+import weka.classifiers.meta.RRC.calculators.RRCCalcBeta;
 import weka.classifiers.trees.J48;
 import weka.core.Capabilities;
 import weka.core.Capabilities.Capability;
 import weka.core.Instance;
 import weka.core.Instances;
+import weka.core.Option;
+import weka.core.Utils;
 
 /**
  * @author pawel
@@ -31,6 +36,8 @@ public class RandomClassifier extends RandomizableSingleClassifierEnhancer {
 	private static final long serialVersionUID = -8015924482789305122L;
 	
 	private Random random = new Random(this.getSeed());
+	
+	private boolean randomizeResponse=false;
 	
 	
 
@@ -62,7 +69,10 @@ public class RandomClassifier extends RandomizableSingleClassifierEnhancer {
 	 */
 	@Override
 	public double[] distributionForInstance(Instance instance) throws Exception {
+		
 		double[] baseResponse = this.m_Classifier.distributionForInstance(instance);
+		if(!this.randomizeResponse)
+			return baseResponse;
 		int numClasses = baseResponse.length;
 		double[] finalResponse = new double[numClasses];
 		
@@ -124,10 +134,75 @@ public class RandomClassifier extends RandomizableSingleClassifierEnhancer {
 	 */
 	@Override
 	public Capabilities getCapabilities() {
-		Capabilities capabilities =this.m_Classifier.getCapabilities();
+		Capabilities capabilities = this.m_Classifier.getCapabilities();
 		capabilities.disable(Capability.NUMERIC_CLASS);
+		capabilities.setOwner(this);
 		return  capabilities;
 		 
 	}
+	
+	public boolean isRandomizedResponse() {
+		return this.randomizeResponse;
+	}
+	
+	public void setRandomizeResponse(boolean randomizeResponse) {
+		this.randomizeResponse= randomizeResponse;
+	}
+	public String randomizeResponseTipText() {
+		return "Determines if the response is randomized";
+	}
+
+	/* (non-Javadoc)
+	 * @see weka.classifiers.RandomizableSingleClassifierEnhancer#listOptions()
+	 */
+	@Override
+	public Enumeration<Option> listOptions() {
+		Vector<Option> newVector = new Vector<Option>(1);
+		
+		 newVector.addElement(new Option(
+			      "\tDetermines whether the randomization is performed"+
+		          "(default:" + 0  + ").\n",
+			      "RA", 0, "-RA"));
+		 
+		 newVector.addAll(Collections.list(super.listOptions()));
+		    
+		return newVector.elements();
+	}
+
+	/* (non-Javadoc)
+	 * @see weka.classifiers.RandomizableSingleClassifierEnhancer#setOptions(java.lang.String[])
+	 */
+	@Override
+	public void setOptions(String[] options) throws Exception {
+		super.setOptions(options);
+		
+		String randomizeString = Utils.getOption("RA", options);
+		if(randomizeString.length() !=0) {
+			this.randomizeResponse = Integer.parseInt(randomizeString)>0? true:false;
+		}else {
+			this.randomizeResponse=false;
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see weka.classifiers.RandomizableSingleClassifierEnhancer#getOptions()
+	 */
+	@Override
+	public String[] getOptions() {
+		Vector<String> options = new Vector<String>();
+	    
+
+	    options.add("-RA");
+	    options.add(""+(this.isRandomizedResponse()?1:0));
+	    
+	    
+	    Collections.addAll(options, super.getOptions());
+	    
+	    return options.toArray(new String[0]);
+	}
+	
+	
+	
+	
 
 }
