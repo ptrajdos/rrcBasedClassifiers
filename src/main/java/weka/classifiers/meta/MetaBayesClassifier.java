@@ -11,7 +11,7 @@ import weka.tools.GlobalInfoHandler;
 import weka.tools.data.InstancesOperator;
 
 /**
- * @author pawel
+ * @author Pawel Trajdos
  *
  */
 public class MetaBayesClassifier extends RRCBasedWithValidation implements GlobalInfoHandler {

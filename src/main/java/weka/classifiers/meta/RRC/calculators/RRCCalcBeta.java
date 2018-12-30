@@ -88,7 +88,7 @@ public class RRCCalcBeta implements Serializable, RRCCalc{
 				continue;
 			}
 			if(oneProbs[pro]<eps){
-				rrcProbs[pro]=eps;
+				rrcProbs[pro]=0;
 				continue;
 			}
 			alpha = 2.0*oneProbs[pro];//A0

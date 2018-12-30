@@ -5,12 +5,12 @@ package weka.classifiers.meta.RRC.calculators;
 
 import java.io.Serializable;
 
-import net.sourceforge.jdistlib.Beta;
 import weka.classifiers.meta.RRC.tools.Linspace;
 import weka.core.Utils;
 
 /**
- * @author pawel
+ * @author pawel trajdos
+ * @version 0.1.1
  *
  */
 public class RRCCalcTruncNormal implements RRCCalc, Serializable{
@@ -42,7 +42,7 @@ public class RRCCalcTruncNormal implements RRCCalc, Serializable{
 	@Override
 	public double calculateRRCBinary(double oneProb) {
 		if(oneProb<EPS) {
-			return EPS;
+			return 0;
 		}
 		if(1-oneProb<EPS) {
 			return 1;
@@ -84,7 +84,7 @@ public class RRCCalcTruncNormal implements RRCCalc, Serializable{
 		for(int i=0;i<oneProbs.length;i++) {
 			oneProb = oneProbs[i];
 			if(oneProb<EPS) {
-				results[i]=EPS;
+				results[i]=0;
 				continue;
 			}
 			if(1-oneProb < EPS) {
@@ -123,6 +123,12 @@ public class RRCCalcTruncNormal implements RRCCalc, Serializable{
 	@Override
 	public double[] calculateRRC(double[] predictions) {
 		
+		/*Faster Way*/
+		if(predictions.length==2) {
+			double predO = this.calculateRRCBinary(predictions[0]);
+			return new double[]{predO,1-predO};
+		}
+		
 		return this.calculateRRCMC(predictions, integrLen);
 	}
 
@@ -136,15 +142,17 @@ public class RRCCalcTruncNormal implements RRCCalc, Serializable{
 		double correctedPrediction=0.0;
 		boolean breakInstanceComputation=false;
 		final double eps = EPS;
+		int oneIdx =0;
 			for(int cl=0;cl<nClass;cl++){
 				correctedPrediction = predictions[cl];
 				if(1.0-correctedPrediction<eps){
 					finalPredictions[cl]=1.0;
 					breakInstanceComputation = true;
+					oneIdx=cl;
+					break;
+					
 				}
-				if(correctedPrediction<eps){
-					correctedPrediction=eps;
-				}
+				
 				
 				sd = Math.pow( (correctedPrediction*(1-correctedPrediction)/(nClass+1)),this.sdPower);
 				
@@ -153,14 +161,11 @@ public class RRCCalcTruncNormal implements RRCCalc, Serializable{
 				
 			}
 			if(breakInstanceComputation){
-				double finPredSum =0;
+				
 				for(int i=0;i<finalPredictions.length;i++){
-					finPredSum+=finalPredictions[i];
+					finalPredictions[i] = (i==oneIdx)? 1:0;
 				}
-				if(! Utils.eq(0, finPredSum)){
-					for(int i=0;i<finalPredictions.length;i++)
-						finalPredictions[i]/=finPredSum;
-				}
+				
 				
 				return finalPredictions;
 			}
@@ -169,31 +174,28 @@ public class RRCCalcTruncNormal implements RRCCalc, Serializable{
 			double integrationSum;
 			double product;
 			
-			double[][] betaCumulatives = new double[nClass][];
+			double[][] tNormalCumulatives = new double[nClass][];
 			
 			for(int i=0;i<nClass;i++){
-				betaCumulatives[i] = tNormObjs[i].cumulative(integrationSequence);
+				tNormalCumulatives[i] = tNormObjs[i].cumulative(integrationSequence);
 			}
 			
-			double h = 1.0/integrationSequence.length;
-			double cumSum=0.0;
+			
 			double predSum=0;
 			for(int cla=0;cla<nClass;cla++){
 				integrationSum=0.0;
-				for(int intS=0;intS <integrationSequence.length-1;intS++){
-					pdf = (tNormObjs[cla].cumulative(integrationSequence[intS+1])-tNormObjs[cla].cumulative(integrationSequence[intS]))/h;
+				for(int intS=0;intS <integrationSequence.length;intS++){
+					pdf = (tNormObjs[cla].density(integrationSequence[intS], false));
 					product=pdf;
 					for(int nCl=0;nCl<nClass;nCl++){
 						if(cla==nCl)continue;
-						product*=betaCumulatives[nCl][intS];
+						product*=tNormalCumulatives[nCl][intS];
 					}
 					integrationSum+=product;
 				}
-				integrationSum/=integrationSequence.length;
-				if(integrationSum>1)integrationSum=1.0;
 				finalPredictions[cla]=integrationSum;
 				predSum+=finalPredictions[cla];
-				cumSum+=integrationSum;
+				
 			}
 			if(!Utils.eq(0, predSum))
 				for(int i=0;i<finalPredictions.length;i++){
