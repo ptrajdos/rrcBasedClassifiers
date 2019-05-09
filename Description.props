@@ -3,7 +3,7 @@
 # 
 
 # Package name (required)
-PackageName= RRC based classifiers
+PackageName= RRCBasedClassifiers
 
 # Version (required)
 Version=0.1.0
