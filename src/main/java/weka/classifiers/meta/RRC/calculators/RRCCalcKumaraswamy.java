@@ -12,7 +12,10 @@ import weka.classifiers.meta.RRC.tools.Linspace;
 import weka.core.Utils;
 
 /**
- * @author pawel
+ * The class implements the RRC classifier using Kumaraswamy distribution. 
+ * @author pawel trajdos
+ * @since 0.1.0
+ * @version 0.1.0
  *
  */
 public class RRCCalcKumaraswamy implements RRCCalc, Serializable {

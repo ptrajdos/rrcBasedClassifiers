@@ -11,7 +11,10 @@ import weka.classifiers.meta.RRC.tools.BetaReverser;
 import weka.core.Utils;
 
 /**
- * @author pawel
+ * The class implements the RRC classifier usiung The Beta distribution.
+ * @author pawel trajdos
+ * @since 0.1.0
+ * @version 0.1.0
  *
  */
 public class RRCCalcBeta implements Serializable, RRCCalc{
@@ -88,7 +91,7 @@ public class RRCCalcBeta implements Serializable, RRCCalc{
 				continue;
 			}
 			if(oneProbs[pro]<eps){
-				rrcProbs[pro]=eps;
+				rrcProbs[pro]=0;
 				continue;
 			}
 			alpha = 2.0*oneProbs[pro];//A0

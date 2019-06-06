@@ -2,6 +2,13 @@ package weka.classifiers.meta.RRC.tools;
 
 import org.apache.commons.math3.random.RandomGenerator;
 
+/**
+ * The class implements Kumaraswamy Distribution CDF
+ * @author pawel trajdos
+ * @since 0.1.0
+ * @version 0.1.0
+ *
+ */
 public class KumaraswamyCDFCal extends KumaraswamyDistribution implements MultiCumulativeCalc {
 
 	public KumaraswamyCDFCal(double alpha, double beta) {

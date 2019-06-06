@@ -4,18 +4,21 @@
 package weka.classifiers.meta.RRC.tools;
 
 /**
- * @author pawel
+ * The class contains static methods that calculates linspaces (like in Matlab or R).
+ * @author pawel trajdos
+ * @since 0.1.0
+ * @version 0.1.0
  *
  */
 public class Linspace {
-
-	/**
-	 * 
-	 */
-	public Linspace() {
-		// TODO Auto-generated constructor stub
-	}
 	
+	/**
+	 * Generates linspace
+	 * @param from -- starting point in the sequence
+	 * @param to -- ending point in the sequence
+	 * @param length -- the length of the output sequence
+	 * @return linspace
+	 */
 	public static double[] genLinspace(double from,double to,int length){
 		double[] sequence = new double[length];
 		double step=0;
@@ -31,6 +34,15 @@ public class Linspace {
 		return sequence;
 	}
 	
+	/**
+	 * Generates symetric linspace -- values are symmetric around the central value.
+	 * 
+	 * @param from -- starting point in the sequence
+	 * @param to -- ending point in the sequence
+	 * @param length -- the length of the output sequence
+	 * 
+	 * @return
+	 */
 	public static double[] genLinspaceSym(double from,double to,int length){
 		double[] sequence = new double[length];
 		double step=0;
@@ -46,14 +58,6 @@ public class Linspace {
 			current+=step;
 		}
 		return sequence;
-	}
-
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		
-
 	}
 
 }

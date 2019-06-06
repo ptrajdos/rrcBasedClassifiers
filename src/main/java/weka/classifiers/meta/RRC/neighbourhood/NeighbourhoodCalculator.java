@@ -3,11 +3,14 @@
  */
 package weka.classifiers.meta.RRC.neighbourhood;
 
-import weka.core.Instances;
 import weka.core.Instance;
+import weka.core.Instances;
 
 /**
- * @author pawel
+ * The interface for calculating neighbourhood of the given instance.
+ * @author pawel trajdos
+ * @since 0.1.0
+ * @version 0.1.0
  *
  */
 public interface NeighbourhoodCalculator {

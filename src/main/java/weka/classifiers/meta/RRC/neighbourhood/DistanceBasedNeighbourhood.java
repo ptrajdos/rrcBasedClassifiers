@@ -16,7 +16,10 @@ import weka.core.OptionHandler;
 import weka.core.Utils;
 
 /**
- * @author pawel
+ * Neighbourhood based on the distance function.
+ * @author pawel trajdos
+ * @since 0.1.0
+ * @version 0.1.0
  *
  */
 public abstract class DistanceBasedNeighbourhood implements NeighbourhoodCalculator, Serializable, OptionHandler {

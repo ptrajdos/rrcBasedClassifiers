@@ -4,7 +4,10 @@
 package weka.classifiers.meta.RRC.tools;
 
 /**
- * @author pawel
+ * The class implements reversed Beta distribution CDF. 
+ * @author pawel trajdos
+ * @since 0.1.0
+ * @version 0.1.0
  *
  */
 public class BetaReverser {
@@ -19,7 +22,6 @@ public class BetaReverser {
 		for(int i=0;i<reversed.length;i++){
 			reversed[i] = 1 - cdfs[cdfs.length -1 -i];
 		}
-		
 		return reversed;
 		
 	}

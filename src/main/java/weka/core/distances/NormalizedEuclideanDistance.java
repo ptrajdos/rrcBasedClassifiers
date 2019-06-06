@@ -9,7 +9,10 @@ import weka.core.Instances;
 import weka.core.neighboursearch.PerformanceStats;
 
 /**
- * @author pawel
+ * The class implements the Euclidean distance normalised using the number of attributes.
+ * @author pawel trajdos
+ * @since 0.1.0
+ * @version 0.1.0
  *
  */
 public class NormalizedEuclideanDistance extends EuclideanDistance {

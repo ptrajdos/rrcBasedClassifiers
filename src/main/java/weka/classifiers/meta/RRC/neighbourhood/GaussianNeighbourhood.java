@@ -14,7 +14,10 @@ import weka.core.OptionHandler;
 import weka.core.Utils;
 
 /**
- * @author pawel
+ * The class implements the neighbourhood based on the gaussian potential.
+ * @author pawel trajdos
+ * @since 0.1.0
+ * @version 0.1.0
  *
  */
 public class GaussianNeighbourhood extends DistanceBasedNeighbourhood implements OptionHandler {
@@ -24,6 +27,9 @@ public class GaussianNeighbourhood extends DistanceBasedNeighbourhood implements
 	 */
 	private static final long serialVersionUID = 3874847101238233840L;
 	
+	/**
+	 * Shape coefficient for the gaussian potential function.
+	 */
 	protected double alpha=1.0;
 
 

@@ -6,7 +6,7 @@
 
    <groupId>com.github.ptrajdos</groupId>
    <artifactId>RRCBasedClassifiers</artifactId>
-   <version>0.1.0</version>
+   <version>0.1.1</version>
    
    <name>RRCBasedClassifiers</name>
    <description> The package contains the the implementation of classifiers that uses the RRC meta-classifier. </description>
@@ -73,7 +73,7 @@
     <dependency>
         <groupId>com.github.ptrajdos</groupId>
         <artifactId>WekaTools</artifactId>
-        <version>[0.1.1,)</version>
+        <version>[0.8.1,)</version>
     </dependency>
     
     <dependency>
@@ -103,7 +103,7 @@
     <dependency>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-lang3</artifactId>
-    <version>3.7</version>
+    <version>3.9</version>
     </dependency>
     
     <dependency>
@@ -240,7 +240,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>2.0.2</version>
+          <version>3.8.0</version>
           <configuration>
             <source>1.6</source>
             <target>1.6</target>
@@ -250,7 +250,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.7.2</version>
+          <version>2.22.2</version>
           <configuration>
             <includes>
               <include>**/*Test.java</include>
@@ -259,6 +259,7 @@
             <redirectTestOutputToFile>true</redirectTestOutputToFile>
             <systemPropertyVariables>
               <weka.test.Regression.root>src/test/resources/wekarefs</weka.test.Regression.root>
+              <weka.test.maventest>true</weka.test.maventest>
             </systemPropertyVariables>
           </configuration>
         </plugin>
@@ -290,6 +291,9 @@
                 <include>**/*~</include>
                 <include>**/.attach_pid*</include>
                 <include>**/hs_err_pid*</include>
+                <include>src/test/resources/wekarefs/</include>
+                <include>doc/**</include>
+                <include>lib/**</include>
               </includes>
               <followSymlinks>false</followSymlinks>
             </fileset>
@@ -375,6 +379,45 @@
             </execution>
             </executions>
         </plugin>
+        
+        <plugin>
+        	<groupId>org.apache.maven.plugins</groupId>
+        	<artifactId>maven-javadoc-plugin</artifactId>
+        	<version>3.0.1</version>
+        	<configuration>
+          		<show>private</show>
+          		<nohelp>true</nohelp>
+        	</configuration>
+      </plugin>
+      
+      <plugin>
+    <groupId>pl.project13.maven</groupId>
+    <artifactId>git-commit-id-plugin</artifactId>
+    <version>2.2.4</version>
+    <executions>
+        <execution>
+            <id>get-the-git-infos</id>
+            <goals>
+                <goal>revision</goal>
+            </goals>
+        </execution>
+    </executions>
+    <configuration>
+        <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
+        <prefix>git</prefix>
+        <verbose>false</verbose>
+        <generateGitPropertiesFile>true</generateGitPropertiesFile>
+        <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
+        <format>json</format>
+        <gitDescribe>
+            <skip>false</skip>
+            <always>false</always>
+            <dirty>-dirty</dirty>
+        </gitDescribe>
+    </configuration>
+</plugin>
+      
+      
   
     </plugins>
 </build>
