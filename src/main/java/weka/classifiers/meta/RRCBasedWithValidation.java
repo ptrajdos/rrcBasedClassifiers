@@ -21,7 +21,11 @@ import weka.core.Utils;
 import weka.tools.data.InstancesOperator;
 
 /**
- * @author pawel
+ * Base class for classifiers based on RRC.
+ * The classifier uses validation and training sets generated using crossvalidation.
+ * @author pawel trajdos
+ * @since 0.1.0
+ * @version 0.1.0
  *
  */
 public abstract class RRCBasedWithValidation extends RRCWrapper {

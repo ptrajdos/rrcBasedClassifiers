@@ -11,6 +11,8 @@ import weka.core.Instances;
 
 /**
  * @author Pawel Trajdos
+ * @since 0.1.0
+ * @version 0.1.0
  * 
  * The class implements dummy neighbourhood -- all points get membership degree equal to 1.
  *

@@ -4,7 +4,10 @@
 package weka.classifiers.meta.RRC.calculators;
 
 /**
- * @author pawel
+ * The interface for varrious types of the RRC classifier.
+ * @author pawel trajdos
+ * @since 0.1.0
+ * @version 0.1.0
  *
  */
 public interface RRCCalc {

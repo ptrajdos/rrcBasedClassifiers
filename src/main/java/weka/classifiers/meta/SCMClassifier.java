@@ -11,7 +11,11 @@ import weka.core.Instance;
 import weka.tools.GlobalInfoHandler;
 
 /**
- * @author pawel
+ * The class implements the Soft Confusion Matrix classifier
+ * 
+ * @author pawel trajdos
+ * @since 0.1.0
+ * @version 0.1.0
  *
  */
 public class SCMClassifier extends RRCBasedWithValidation implements GlobalInfoHandler{
@@ -54,10 +58,7 @@ public class SCMClassifier extends RRCBasedWithValidation implements GlobalInfoH
 			for(int d=0;d<numClasses;d++) {
 				finalResponse[c]+= rrcResponse[d]*matrix[c][d];
 			}
-		}
-		
-		
-		
+		}	
 		return finalResponse;
 	}
 	

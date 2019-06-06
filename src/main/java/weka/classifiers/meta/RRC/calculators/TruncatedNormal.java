@@ -5,13 +5,14 @@ package weka.classifiers.meta.RRC.calculators;
 
 import java.io.Serializable;
 
-import org.apache.commons.math3.distribution.NormalDistribution;
-
 import net.sourceforge.jdistlib.Normal;
 import net.sourceforge.jdistlib.generic.GenericDistribution;
 
 /**
- * @author pawel
+ * The class implements the Truncated Gaussian distribution.
+ * @author pawel trajdos
+ * @since 0.1.0
+ * @version 0.1.0
  *
  */
 public class TruncatedNormal extends GenericDistribution implements Serializable {

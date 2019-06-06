@@ -6,7 +6,10 @@ package weka.classifiers.meta.RRC.tools;
 import java.io.Serializable;
 
 /**
- * @author pawel
+ * Class implements fast computation of Kumaraswamy distribution CDF
+ * @author pawel trajdos
+ * @since 0.1.0
+ * @version 0.1.0
  *
  */
 public class KumaraswamyCDFCalFast implements MultiCumulativeCalc, Serializable {

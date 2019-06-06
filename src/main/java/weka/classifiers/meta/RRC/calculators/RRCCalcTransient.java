@@ -8,6 +8,8 @@ import java.util.Arrays;
 
 /**
  * @author pawel trajdos
+ * @since 0.1.0
+ * @version 0.1.0
  * 
  * This class implements a transient RRC calculator
  * This calculator does not modify the soft outcome of the classifier 

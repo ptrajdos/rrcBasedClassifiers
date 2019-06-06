@@ -9,7 +9,10 @@ import weka.classifiers.meta.RRC.tools.Linspace;
 import weka.core.Utils;
 
 /**
+ * RRC classifier using the Truncated Normal distribution.
+ * 
  * @author pawel trajdos
+ * @since 0.1.1
  * @version 0.1.1
  *
  */
@@ -29,12 +32,6 @@ public class RRCCalcTruncNormal implements RRCCalc, Serializable{
 	
 	protected double sdPower=0.5;
 	
-	/**
-	 * 
-	 */
-	public RRCCalcTruncNormal() {
-		// TODO Auto-generated constructor stub
-	}
 
 	/* (non-Javadoc)
 	 * @see weka.classifiers.meta.RRC.calculators.RRCCalc#calculateRRCBinary(double)

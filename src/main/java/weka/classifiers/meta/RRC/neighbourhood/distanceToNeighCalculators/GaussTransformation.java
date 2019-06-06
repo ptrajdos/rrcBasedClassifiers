@@ -6,7 +6,10 @@ package weka.classifiers.meta.RRC.neighbourhood.distanceToNeighCalculators;
 import java.io.Serializable;
 
 /**
- * @author pawel
+ * The class implments transformation from distance value to Gauusian Potential function around distance equal to zero. 
+ * @author pawel trajdos
+ * @since 0.1.0
+ * @version 0.1.0
  *
  */
 public class GaussTransformation implements Distance2NeighbourhoodTransformation, Serializable {
@@ -18,12 +21,6 @@ public class GaussTransformation implements Distance2NeighbourhoodTransformation
 	
 	protected double alpha =1.0;
 
-	/**
-	 * 
-	 */
-	public GaussTransformation() {
-		// TODO Auto-generated constructor stub
-	}
 
 	@Override
 	public double getNeighbourhood(double distanceVal) {

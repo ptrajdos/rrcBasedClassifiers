@@ -10,7 +10,10 @@ import org.apache.commons.math3.random.Well19937a;
 import org.apache.commons.math3.util.FastMath;
 
 /**
- * @author pawel
+ * The class implements Kumaraswamy distribution.
+ * @author pawel trajdos
+ * @since 0.1.0
+ * @version 0.1.0
  *
  */
 public class KumaraswamyDistribution extends AbstractRealDistribution  {

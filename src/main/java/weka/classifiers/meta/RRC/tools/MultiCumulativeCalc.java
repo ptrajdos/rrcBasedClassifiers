@@ -4,7 +4,10 @@
 package weka.classifiers.meta.RRC.tools;
 
 /**
- * @author pawel
+ * Interface for objects that calculates the values of the CDF function.
+ * @author pawel trajdos
+ * @since 0.1.0
+ * @version 0.1.0
  *
  */
 public interface MultiCumulativeCalc {

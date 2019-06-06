@@ -10,7 +10,6 @@ import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Vector;
-import java.util.Map.Entry;
 
 import weka.core.Instance;
 import weka.core.Instances;
@@ -18,7 +17,14 @@ import weka.core.Option;
 import weka.core.Utils;
 
 /**
- * @author pawel
+ * Nearest neighbour distance function.
+ * The neighbourhood is created using the choosen number of nearest neighbours. 
+ * The neighbourhood membership coefficient for the nearest instances is one. 
+ * The neighbourhood membership coefficient for remaining instances is zero.
+ * 
+ * @author pawel trajdos
+ * @since 0.1.0
+ * @version 0.1.0
  *
  */
 public class NearestNeighbourNeighbourhood extends DistanceBasedNeighbourhood {
@@ -30,12 +36,6 @@ public class NearestNeighbourNeighbourhood extends DistanceBasedNeighbourhood {
 	 */
 	private static final long serialVersionUID = 4656882914788648210L;
 
-	/**
-	 * 
-	 */
-	public NearestNeighbourNeighbourhood() {
-		// TODO Auto-generated constructor stub
-	}
 
 	/* (non-Javadoc)
 	 * @see weka.classifiers.meta.RRC.neighbourhood.NeighbourhoodCalculator#getNeighbourhoodCoeffs(weka.core.Instances, weka.core.Instance)

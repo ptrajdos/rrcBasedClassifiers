@@ -4,7 +4,10 @@
 package weka.classifiers.meta.RRC.neighbourhood.distanceToNeighCalculators;
 
 /**
- * @author Pawel Trajdos
+ * The interface for converting distance values into some kind of potential function.
+ * @author pawel trajdos
+ * @since 0.1.0
+ * @version 0.1.0
  *
  */
 public interface Distance2NeighbourhoodTransformation {

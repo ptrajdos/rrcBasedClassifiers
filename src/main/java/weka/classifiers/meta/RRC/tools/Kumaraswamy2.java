@@ -6,7 +6,10 @@ package weka.classifiers.meta.RRC.tools;
 import net.sourceforge.jdistlib.Kumaraswamy;
 
 /**
- * @author pawel
+ * The class implements Kumaraswamy distribution.
+ * @author pawel trajdos
+ * @since 0.1.0
+ * @version 0.1.0
  *
  */
 public class Kumaraswamy2 extends Kumaraswamy {

@@ -9,8 +9,10 @@ import weka.core.Instance;
 import weka.tools.GlobalInfoHandler;
 
 /**
- * @author pawel
- *
+ * Static RRC wrapper for other classifiers.
+ * @author pawel trajdos
+ * @since 0.1.0
+ * @version 0.1.0
  */
 public class RRCWrapperStaticP1 extends RRCWrapper implements GlobalInfoHandler {
 
