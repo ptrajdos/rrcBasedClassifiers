@@ -18,6 +18,7 @@ import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.Option;
 import weka.core.Utils;
+import weka.core.UtilsPT;
 import weka.tools.data.InstancesOperator;
 
 /**
@@ -161,6 +162,12 @@ public abstract class RRCBasedWithValidation extends RRCWrapper {
 			      "KF", 1, "-KF"));
 		 
 		 
+		 newVector.addElement(new Option(
+			      "\t Neighbourhood calculator to use"+
+		          "(default: weka.classifiers.meta.RRC.neighbourhood.DummyNeighbourhood ).\n",
+			      "NC", 1, "-NC"));
+		 
+		 
 		 
 		 newVector.addAll(Collections.list(super.listOptions()));
 		    
@@ -194,6 +201,7 @@ public abstract class RRCBasedWithValidation extends RRCWrapper {
 		}else {
 			this.kFolds=2;
 		}
+		this.setNeighCalc((NeighbourhoodCalculator) UtilsPT.parseObjectOptions(options, "NC", new DummyNeighbourhood(), NeighbourhoodCalculator.class));
 	}
 
 	/* (non-Javadoc)
@@ -213,6 +221,9 @@ public abstract class RRCBasedWithValidation extends RRCWrapper {
 	    
 	    options.add("-KF");
 	    options.add(""+this.kFolds);
+	    
+	    options.add("-NC");
+	    options.add(UtilsPT.getClassAndOptions(neighCalc));
 	    
 	    
 	    Collections.addAll(options, super.getOptions());
