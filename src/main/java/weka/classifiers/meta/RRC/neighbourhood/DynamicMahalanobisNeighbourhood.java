@@ -30,15 +30,20 @@ public class DynamicMahalanobisNeighbourhood implements NeighbourhoodCalculator,
 	protected GaussianNeighbourhood initWeightsCalc;
 	protected GaussianNeighbourhood distNeigh;
 	protected double alpha=1.0;
+	protected boolean normalize=false;
+	MahalanobisDistance mahDist;
+	
+
+	
 
 	/**
 	 * 
 	 */
 	public DynamicMahalanobisNeighbourhood() {
 		this.initWeightsCalc = new GaussianNeighbourhood();
-		MahalanobisDistance mahDist = new MahalanobisDistance();
+		this.mahDist = new MahalanobisDistance();
 		this.distNeigh = new GaussianNeighbourhood();
-		this.distNeigh.setDistFun(mahDist);
+		this.distNeigh.setDistFun(this.mahDist);
 	}
 
 	/* (non-Javadoc)
@@ -102,6 +107,20 @@ public class DynamicMahalanobisNeighbourhood implements NeighbourhoodCalculator,
 		this.distNeigh.setAlpha(alpha);
 	}
 	
+	/**
+	 * @return the normalize
+	 */
+	public boolean isNormalize() {
+		return this.normalize;
+	}
+
+	/**
+	 * @param normalize the normalize to set
+	 */
+	public void setNormalize(boolean normalize) {
+		this.normalize = normalize;
+		this.mahDist.setNormalize(normalize);
+	}
 	
 
 }
