@@ -33,6 +33,16 @@
    <url>https://github.com/ptrajdos/rrcBasedClassifiers/tree/master</url>
  </scm>
 
+<repositories>
+   
+    <repository>
+        <id>project-repo</id>
+        <name>project</name>
+        <url>file:${project.basedir}/libs</url>
+    </repository>
+    
+  
+  </repositories>
 
   <distributionManagement>
   <snapshotRepository>
