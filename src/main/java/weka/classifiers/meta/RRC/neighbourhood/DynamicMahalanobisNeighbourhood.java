@@ -121,6 +121,22 @@ public class DynamicMahalanobisNeighbourhood implements NeighbourhoodCalculator,
 		this.normalize = normalize;
 		this.mahDist.setNormalize(normalize);
 	}
+
+	/**
+	 * @return the initWeightsCalc
+	 */
+	public GaussianNeighbourhood getInitWeightsCalc() {
+		return this.initWeightsCalc;
+	}
+
+	/**
+	 * @param initWeightsCalc the initWeightsCalc to set
+	 */
+	public void setInitWeightsCalc(GaussianNeighbourhood initWeightsCalc) {
+		this.initWeightsCalc = initWeightsCalc;
+	}
+	
+	
 	
 
 }

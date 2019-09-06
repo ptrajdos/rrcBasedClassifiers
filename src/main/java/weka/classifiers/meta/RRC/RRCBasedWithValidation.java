@@ -1,7 +1,7 @@
 /**
  * 
  */
-package weka.classifiers.meta;
+package weka.classifiers.meta.RRC;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -6,9 +6,9 @@ package weka.classifiers.meta.RRC.calculators;
 import java.io.Serializable;
 
 import net.sourceforge.jdistlib.Beta;
-import weka.classifiers.meta.RRC.tools.Linspace;
 import weka.classifiers.meta.RRC.tools.BetaReverser;
 import weka.core.Utils;
+import weka.tools.Linspace;
 
 /**
  * The class implements the RRC classifier usiung The Beta distribution.

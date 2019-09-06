@@ -6,6 +6,7 @@ package weka.classifiers.meta;
 import java.util.Arrays;
 
 import weka.classifiers.Classifier;
+import weka.classifiers.meta.RRC.RRCBasedWithValidation;
 import weka.classifiers.trees.J48;
 import weka.core.Instance;
 import weka.tools.GlobalInfoHandler;
@@ -103,6 +104,13 @@ public class SCMClassifier extends RRCBasedWithValidation implements GlobalInfoH
 	public String globalInfo() {
 		return "The SCM classifier";
 	}
-	
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		runClassifier(new SCMClassifier(), args);
+
+	}
 
 }

@@ -5,8 +5,8 @@ package weka.classifiers.meta.RRC.calculators;
 
 import java.io.Serializable;
 
-import weka.classifiers.meta.RRC.tools.Linspace;
 import weka.core.Utils;
+import weka.tools.Linspace;
 
 /**
  * RRC classifier using the Truncated Normal distribution.

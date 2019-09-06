@@ -1,31 +1,31 @@
 /**
  * 
  */
-package weka.classifiers.meta;
+package weka.classifiers.meta.RRCEns;
 
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Vector;
 
-import weka.classifiers.Classifier;
 import weka.classifiers.RandomizableSingleClassifierEnhancer;
-import weka.classifiers.meta.RRC.calculators.RRCCalc;
-import weka.classifiers.meta.RRC.calculators.RRCCalcBeta;
-import weka.classifiers.trees.J48;
+import weka.classifiers.meta.CommitteeWrapper;
+import weka.classifiers.meta.RRCEns.calculators.RRCCalcEns;
+import weka.classifiers.meta.RRCEns.calculators.RRCCalcEnsEstimator;
+import weka.classifiers.meta.committees.Committee;
 import weka.core.Capabilities;
 import weka.core.Capabilities.Capability;
 import weka.core.Instances;
 import weka.core.Option;
-import weka.core.OptionHandler;
-import weka.core.Utils;
+import weka.core.UtilsPT;
+import weka.tools.GlobalInfoHandler;
 
 /**
  * @author pawel trajdos
- * @since 0.1.0
- * @version 0.1.0
+ * @since 1.0.0
+ * @version 1.0.0
  *
  */
-public abstract class RRCWrapper extends RandomizableSingleClassifierEnhancer {
+public abstract class RRCWrapper extends RandomizableSingleClassifierEnhancer implements GlobalInfoHandler {
 
 	/**
 	 * 
@@ -33,20 +33,22 @@ public abstract class RRCWrapper extends RandomizableSingleClassifierEnhancer {
 	private static final long serialVersionUID = 4129082572575500420L;
 	
 	
-	
-	protected RRCCalc rrcCalc = new RRCCalcBeta();
-
 	/**
-	 * 
+	 * RRC calculator to use
 	 */
+	protected RRCCalcEns rrcCalc = new RRCCalcEnsEstimator();
+	
+	
+	/**
+	 * Committee wraper
+	 */
+	private CommitteeWrapper comWrapp; 
+	
 	public RRCWrapper() {
-		this(new J48());
+		this.comWrapp = new CommitteeWrapper();
+		this.comWrapp.setClassifier(getClassifier());
 	}
-	
-	
-	public RRCWrapper(Classifier baseClassifier) {
-		this.m_Classifier =baseClassifier;
-	}
+
 	
 
 	/* (non-Javadoc)
@@ -56,6 +58,7 @@ public abstract class RRCWrapper extends RandomizableSingleClassifierEnhancer {
 	public void buildClassifier(Instances arg0) throws Exception {
 		this.getCapabilities().testWithFail(arg0);
 		this.m_Classifier.buildClassifier(arg0);
+		this.comWrapp.setClassifier(this.m_Classifier);
 
 	}
 	
@@ -63,7 +66,7 @@ public abstract class RRCWrapper extends RandomizableSingleClassifierEnhancer {
 	/**
 	 * @return the rrcCalc
 	 */
-	public RRCCalc getRrcCalc() {
+	public RRCCalcEns getRrcCalc() {
 		return this.rrcCalc;
 	}
 	
@@ -75,7 +78,7 @@ public abstract class RRCWrapper extends RandomizableSingleClassifierEnhancer {
 	/**
 	 * @param rrcCalc the rrcCalc to set
 	 */
-	public void setRrcCalc(RRCCalc rrcCalc) {
+	public void setRrcCalc(RRCCalcEns rrcCalc) {
 		this.rrcCalc = rrcCalc;
 	}
 	
@@ -88,14 +91,13 @@ public abstract class RRCWrapper extends RandomizableSingleClassifierEnhancer {
 	@Override
 	public Enumeration<Option> listOptions() {
 		Vector<Option> newVector = new Vector<Option>(1);
-		
-		 newVector.addElement(new Option(
-			      "\tThe RRC-probabilities-calculator to use"+
-		          "(default:" + RRCCalcBeta.class.toGenericString()  + ").\n",
-			      "RRC", 0, "-RRC"));
+		newVector.addElement(new Option(
+			      "\tThe RRC calculator  to use "+
+		          "(default: weka.classifiers.meta.RRCEns.calculators.RRCCalcEnsTransientAverage).\n",
+			      "RRC", 1, "-RRC"));
 		 
-		 newVector.addAll(Collections.list(super.listOptions()));
-		    
+		newVector.addAll(Collections.list(super.listOptions()));
+
 		return newVector.elements();
 	}
 
@@ -105,23 +107,8 @@ public abstract class RRCWrapper extends RandomizableSingleClassifierEnhancer {
 	 */
 	@Override
 	public void setOptions(String[] options) throws Exception {
-		String rrcCalcString = Utils.getOption("RRC", options);
-	    if(rrcCalcString.length() != 0) {
-	      String rrcCalcClassSpec[] = Utils.splitOptions(rrcCalcString);
-	      if(rrcCalcClassSpec.length == 0) { 
-	        throw new Exception("Invalid  RRC calculator String" ); 
-	      }
-	      String className = rrcCalcClassSpec[0];
-	      rrcCalcClassSpec[0] = "";
-
-	      this.setRrcCalc( (RRCCalc)
-	                  Utils.forName( RRCCalc.class, 
-	                                 className, 
-	                                 rrcCalcClassSpec)
-	                                        );
-	    }
-	    else 
-	      this.setRrcCalc(new RRCCalcBeta());
+		
+		this.setRrcCalc((RRCCalcEns) UtilsPT.parseObjectOptions(options, "RRC", new RRCCalcEnsEstimator(), RRCCalcEns.class));
 		
 		super.setOptions(options);
 	}
@@ -136,11 +123,7 @@ public abstract class RRCWrapper extends RandomizableSingleClassifierEnhancer {
 	    
 
 	    options.add("-RRC");
-	    String rrcCalcOptions[] = new String[] {""};
-	    if(this.rrcCalc instanceof OptionHandler) {
-	    	rrcCalcOptions = ((OptionHandler) this.rrcCalc).getOptions();
-	    }
-	    options.add(this.rrcCalc.getClass().getName()+" "+Utils.joinOptions(rrcCalcOptions)); 
+	    options.add(UtilsPT.getClassAndOptions(this.rrcCalc));
 	    
 	    Collections.addAll(options, super.getOptions());
 	    
@@ -154,10 +137,30 @@ public abstract class RRCWrapper extends RandomizableSingleClassifierEnhancer {
 	public Capabilities getCapabilities() {
 		Capabilities baseCaps = super.getCapabilities();
 		baseCaps.disable(Capability.NUMERIC_CLASS);
+		baseCaps.disable(Capability.DATE_CLASS);
+		baseCaps.disable(Capability.MISSING_CLASS_VALUES);
+		baseCaps.disable(Capability.NO_CLASS);
+		baseCaps.disable(Capability.UNARY_CLASS);
 		baseCaps.enable(Capability.NOMINAL_CLASS);
 		return baseCaps; 
 	}
 
 
+
+	/* (non-Javadoc)
+	 * @see weka.tools.GlobalInfoHandler#globalInfo()
+	 */
+	@Override
+	public String globalInfo() {
+		return "Wrapper for classifiers based on the RRC framework";
+	}
+
+
+	protected Committee getCommittee() {
+		this.comWrapp.setClassifier(m_Classifier);
+		return this.comWrapp;
+	}
+	
+	
 
 }

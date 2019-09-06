@@ -4,6 +4,7 @@
 package weka.classifiers.meta;
 
 import weka.classifiers.Classifier;
+import weka.classifiers.meta.RRC.RRCWrapper;
 import weka.classifiers.trees.J48;
 import weka.core.Instance;
 import weka.tools.GlobalInfoHandler;

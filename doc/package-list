@@ -1,6 +1,9 @@
 weka.classifiers.meta
+weka.classifiers.meta.RRC
 weka.classifiers.meta.RRC.calculators
 weka.classifiers.meta.RRC.neighbourhood
 weka.classifiers.meta.RRC.neighbourhood.distanceToNeighCalculators
 weka.classifiers.meta.RRC.tools
+weka.classifiers.meta.RRCEns
+weka.classifiers.meta.RRCEns.calculators
 weka.core.distances

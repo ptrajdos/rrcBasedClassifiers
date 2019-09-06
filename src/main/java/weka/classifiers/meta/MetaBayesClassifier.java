@@ -4,6 +4,7 @@
 package weka.classifiers.meta;
 
 import weka.classifiers.Classifier;
+import weka.classifiers.meta.RRC.RRCBasedWithValidation;
 import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.Utils;

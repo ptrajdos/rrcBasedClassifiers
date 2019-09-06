@@ -5,11 +5,10 @@ package weka.classifiers.meta.RRC.calculators;
 
 import java.io.Serializable;
 
-
 import cern.jet.stat.Gamma;
 import weka.classifiers.meta.RRC.tools.KumaraswamyCDFCalFast;
-import weka.classifiers.meta.RRC.tools.Linspace;
 import weka.core.Utils;
+import weka.tools.Linspace;
 
 /**
  * The class implements the RRC classifier using Kumaraswamy distribution. 

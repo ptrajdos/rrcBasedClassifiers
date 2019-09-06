@@ -13,10 +13,7 @@ import java.util.Vector;
 
 import org.apache.commons.math3.util.Pair;
 
-import weka.classifiers.AbstractClassifier;
 import weka.classifiers.RandomizableSingleClassifierEnhancer;
-import weka.classifiers.meta.RRC.calculators.RRCCalcBeta;
-import weka.classifiers.trees.J48;
 import weka.core.Capabilities;
 import weka.core.Capabilities.Capability;
 import weka.core.Instance;
@@ -200,9 +197,6 @@ public class RandomClassifier extends RandomizableSingleClassifierEnhancer {
 	    
 	    return options.toArray(new String[0]);
 	}
-	
-	
-	
 	
 
 }
