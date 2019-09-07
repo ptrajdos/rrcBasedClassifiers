@@ -1,7 +1,5 @@
 package weka.classifiers.meta.RRCEns.calculators;
 
-import weka.core.OptionHandlersTest.OptionHandlerTest;
-
 public class RRCCalcEnsTransientAverageTest extends RRCCalcEnsTest{
 
 	public RRCCalcEnsTransientAverageTest(String name, String classname) {

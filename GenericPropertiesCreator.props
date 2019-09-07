@@ -12,4 +12,3 @@ weka.classifiers.meta.RRC.neighbourhood.NeighbourhoodCalculator=\
  
 weka.core.DistanceFunction=\
  weka.core.distances
-

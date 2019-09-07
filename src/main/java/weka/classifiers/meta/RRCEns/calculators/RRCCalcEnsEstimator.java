@@ -11,7 +11,7 @@ import weka.core.Option;
 import weka.core.OptionHandler;
 import weka.core.Utils;
 import weka.core.UtilsPT;
-import weka.estimators.density.BoundedKernelEstimator;
+import weka.estimators.density.BoundedEstimator;
 import weka.estimators.density.DensityEstimator;
 import weka.estimators.density.SimpleKernelEstimator;
 import weka.tools.SerialCopier;
@@ -39,7 +39,7 @@ public class RRCCalcEnsEstimator implements RRCCalcEns, Serializable, OptionHand
 	 * 
 	 */
 	public RRCCalcEnsEstimator() {
-		BoundedKernelEstimator bKernel = new BoundedKernelEstimator();
+		BoundedEstimator bKernel = new BoundedEstimator();
 		bKernel.setKernEstim(new SimpleKernelEstimator());
 		this.estimator = bKernel;
 	}
@@ -52,10 +52,10 @@ public class RRCCalcEnsEstimator implements RRCCalcEns, Serializable, OptionHand
 		@Override
 		public double getValue(double argument) {
 			
-			double pdf = this.estimators[currClass].getPDF(argument);
+			double pdf = this.estimators[this.currClass].getPDF(argument);
 			double product =1;
-			for(int i =0 ;i< estimators.length;i++) {
-				if(i == currClass)continue;
+			for(int i =0 ;i< this.estimators.length;i++) {
+				if(i == this.currClass)continue;
 				product*= this.estimators[i].getCDF(argument);
 			}
 			return pdf*product;
@@ -119,6 +119,8 @@ public class RRCCalcEnsEstimator implements RRCCalcEns, Serializable, OptionHand
 		
 		Integrator integr = new TrapezoidalIntegrator();
 		integr.setFunction(distrFun);
+		integr.setLowerBound(0 + 1e-6);
+		integr.setUpperBound(1 - 1e-6);
 		
 		for(int c =0 ; c<numClasses;c++) {
 			distrFun.setCurrClass(c);
@@ -126,7 +128,7 @@ public class RRCCalcEnsEstimator implements RRCCalcEns, Serializable, OptionHand
 			
 		}
 		
-		
+		double sum = Utils.sum(distribution);
 		Utils.normalize(distribution);
 			
 		
@@ -145,7 +147,7 @@ public class RRCCalcEnsEstimator implements RRCCalcEns, Serializable, OptionHand
 
 	@Override
 	public void setOptions(String[] options) throws Exception {
-		BoundedKernelEstimator bKernel = new BoundedKernelEstimator();
+		BoundedEstimator bKernel = new BoundedEstimator();
 		bKernel.setKernEstim(new SimpleKernelEstimator());
 		this.setEstimator((DensityEstimator) UtilsPT.parseObjectOptions(options, "EST", bKernel, DensityEstimator.class));
 		

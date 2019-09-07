@@ -5,7 +5,6 @@ import java.util.Random;
 
 import junit.framework.TestCase;
 import weka.core.OptionHandler;
-import weka.core.OptionHandlersTest.OptionHandlerTest;
 import weka.core.Utils;
 
 public abstract class RRCCalcEnsTest extends TestCase {

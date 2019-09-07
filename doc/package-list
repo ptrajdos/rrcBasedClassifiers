@@ -7,3 +7,4 @@ weka.classifiers.meta.RRC.tools
 weka.classifiers.meta.RRCEns
 weka.classifiers.meta.RRCEns.calculators
 weka.core.distances
+weka.estimators.density
