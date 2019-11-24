@@ -9,10 +9,4 @@ public class RRCCalcEnsEstimatorTest extends RRCCalcEnsTest{
 		this(name,RRCCalcEnsEstimator.class.getCanonicalName());
 	}
 
-	public void testOptions() {
-		//TODO test options
-		assertTrue(true);
-		
-	}
-
 }

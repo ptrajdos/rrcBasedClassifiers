@@ -14,10 +14,11 @@ import weka.core.UtilsPT;
 import weka.estimators.density.BoundedEstimator;
 import weka.estimators.density.DensityEstimator;
 import weka.estimators.density.SimpleKernelEstimator;
+import weka.estimators.density.bandwidthFinders.MaximalSmoothingPrincipleBandwidthSelectionKernel;
 import weka.tools.SerialCopier;
 import weka.tools.numericIntegration.Function;
 import weka.tools.numericIntegration.Integrator;
-import weka.tools.numericIntegration.TrapezoidalIntegrator;
+import weka.tools.numericIntegration.SimpsonsIntegrator;
 
 /**
  * RRC probability estimator uese Kernel Density estimators
@@ -34,13 +35,15 @@ public class RRCCalcEnsEstimator implements RRCCalcEns, Serializable, OptionHand
 	private static final long serialVersionUID = 1863996271170736592L;
 	
 	protected DensityEstimator estimator;
+	
+	protected int integrationSequenceLength =100;
 
 	/**
 	 * 
 	 */
 	public RRCCalcEnsEstimator() {
 		BoundedEstimator bKernel = new BoundedEstimator();
-		bKernel.setKernEstim(new SimpleKernelEstimator());
+		bKernel.setKernEstim(new MaximalSmoothingPrincipleBandwidthSelectionKernel());
 		this.estimator = bKernel;
 	}
 	
@@ -117,10 +120,11 @@ public class RRCCalcEnsEstimator implements RRCCalcEns, Serializable, OptionHand
 		DistrFunction distrFun = new DistrFunction();
 		distrFun.setEstimators(estimators);
 		
-		Integrator integr = new TrapezoidalIntegrator();
+		SimpsonsIntegrator integr = new SimpsonsIntegrator();
 		integr.setFunction(distrFun);
 		integr.setLowerBound(0 + 1e-6);
 		integr.setUpperBound(1 - 1e-6);
+		integr.setDelta(1.0/this.integrationSequenceLength);
 		
 		for(int c =0 ; c<numClasses;c++) {
 			distrFun.setCurrClass(c);
@@ -129,6 +133,7 @@ public class RRCCalcEnsEstimator implements RRCCalcEns, Serializable, OptionHand
 		}
 		
 		double sum = Utils.sum(distribution);
+		//TODO in some datasets it is equal to zero thyroid  Truncated Normal and J48 classifier for example
 		Utils.normalize(distribution);
 			
 		
@@ -138,18 +143,29 @@ public class RRCCalcEnsEstimator implements RRCCalcEns, Serializable, OptionHand
 	@Override
 	public Enumeration<Option> listOptions() {
 		Vector<Option> newVector = new Vector<Option>(1);
+		
 		newVector.addElement(new Option(
 			      "\tThe  DensityEstimator  to use "+
 		          "(default: weka.estimators.density.BoundedKernelEstimator.BoundedKernelEstimator).\n",
 			      "EST", 1, "-EST"));
+		
+		newVector.addElement(new Option(
+			      "\tThe  lentgth of the sequence used to calculate probabilities"+
+		          "(default: 100).\n",
+			      "ILEN", 1, "-ILEN"));
+		
+		
 		return newVector.elements();
 	}
 
 	@Override
 	public void setOptions(String[] options) throws Exception {
+		
 		BoundedEstimator bKernel = new BoundedEstimator();
 		bKernel.setKernEstim(new SimpleKernelEstimator());
 		this.setEstimator((DensityEstimator) UtilsPT.parseObjectOptions(options, "EST", bKernel, DensityEstimator.class));
+		
+		this.setIntegrationSequenceLength(UtilsPT.parseIntegerOption(options, "ILEN", 100));
 		
 	}
 
@@ -159,6 +175,9 @@ public class RRCCalcEnsEstimator implements RRCCalcEns, Serializable, OptionHand
 	    
 	    options.add("-EST");
 	    options.add(UtilsPT.getClassAndOptions(this.estimator));
+	    
+	    options.add("-ILEN");
+	    options.add(""+this.integrationSequenceLength);
 	    
 	    return options.toArray(new String[0]);
 	}
@@ -176,7 +195,23 @@ public class RRCCalcEnsEstimator implements RRCCalcEns, Serializable, OptionHand
 	public void setEstimator(DensityEstimator estimator) {
 		this.estimator = estimator;
 	}
+
+	/**
+	 * @return the integrationSequenceLength
+	 */
+	public int getIntegrationSequenceLength() {
+		return this.integrationSequenceLength;
+	}
+
+	/**
+	 * @param integrationSequenceLength the integrationSequenceLength to set
+	 */
+	public void setIntegrationSequenceLength(int integrationSequenceLength) {
+		this.integrationSequenceLength = integrationSequenceLength;
+	}
 	
-	
+	public String integrationSequenceLengthTipText() {
+		return "The length of integration sequence used to calculate the probability.";
+	}
 
 }

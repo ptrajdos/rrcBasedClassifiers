@@ -68,7 +68,8 @@ public abstract class RRCBasedWithValidation extends RRCWrapper {
 	 */
 	@Override
 	public void buildClassifier(Instances arg0) throws Exception {
-		this.getCapabilities().testWithFail(arg0);
+		if(!this.getDoNotCheckCapabilities())
+			this.getCapabilities().testWithFail(arg0);
 		if(this.crossvalidate) {
 			this.buildCV(arg0);
 		}else {

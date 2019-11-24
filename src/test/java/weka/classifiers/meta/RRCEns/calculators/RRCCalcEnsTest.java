@@ -23,7 +23,7 @@ public abstract class RRCCalcEnsTest extends TestCase {
 
 	
 	public void testEstimRnd() {
-		int numClassifiers=10;
+		int numClassifiers=100;
 		int numClasses =3;
 		double[][] vals = this.generateDistribution(numClassifiers, numClasses, 0);
 		RRCCalcEns ensEstim = (RRCCalcEns) this.getEstimator();
@@ -96,6 +96,7 @@ public abstract class RRCCalcEnsTest extends TestCase {
 	public void checkDistr(double[] distr) {
 		assertTrue("Not Null", distr!=null);
 		for(int i=0;i<distr.length;i++) {
+			assertFalse("Is NaN", Double.isNaN(distr[i]));
 			assertTrue("Is finite", Double.isFinite(distr[i]));
 			assertTrue("Bounded within [0;1]", distr[i]>=0.0 && distr[i]<=1.0);
 		}

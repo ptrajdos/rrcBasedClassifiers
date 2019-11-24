@@ -70,8 +70,8 @@ public class BetaEstimator extends AEstimator {
 		alpha = mean * ( (mean*(1.0 - mean)+this.eps)/(var + this.eps) - 1.0);
 		beta = (1.0 - mean) * ( (mean*(1.0 - mean)+this.eps)/(var + this.eps) - 1.0);
 		
-		alpha = Math.max(alpha, eps);
-		beta = Math.max(beta, eps);
+		alpha = Math.max(alpha, this.eps);
+		beta = Math.max(beta, this.eps);
 		
 		this.betaDist = new Beta(alpha, beta);
 		this.isInitialised = true;

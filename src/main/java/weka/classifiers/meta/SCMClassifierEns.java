@@ -62,7 +62,6 @@ public class SCMClassifierEns extends RRCBasedWithValidation implements GlobalIn
 		double[] neighCoeffs = this.neighCalc.getNeighbourhoodCoeffs(this.validationSet, instance);
 		int numValInstances = this.validationSet.numInstances();
 		int gtClass=0;
-		double neighCoeffsSum =0;
 		delta = EPS/numClasses;
 		double[] colSums = new double[numClasses];
 		Arrays.fill(colSums, delta);

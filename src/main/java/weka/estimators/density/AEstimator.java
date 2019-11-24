@@ -4,10 +4,9 @@
 package weka.estimators.density;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-
-import weka.estimators.density.DensityEstimator;
 
 /**
  * @author pawel
@@ -56,5 +55,31 @@ public abstract class AEstimator implements DensityEstimator, Serializable {
 		
 		return array;
 	}
+
+	/* (non-Javadoc)
+	 * @see weka.estimators.density.DensityEstimator#getValues()
+	 */
+	@Override
+	public double[] getValues() {
+		int numSamples = this.samples.size();
+		double[] values = new double[numSamples];
+		for(int i=0;i<numSamples;i++)
+			values[i] = this.samples.get(i);
+		
+		return values;
+	}
+
+	/* (non-Javadoc)
+	 * @see weka.estimators.density.DensityEstimator#getWeights()
+	 */
+	@Override
+	public double[] getWeights() {
+		int numSamples = this.samples.size();
+		double[] weights = new double[numSamples];
+		Arrays.fill(weights, 1.0);
+		return weights;
+	}
+	
+	
 
 }

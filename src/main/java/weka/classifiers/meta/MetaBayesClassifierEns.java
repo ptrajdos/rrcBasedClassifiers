@@ -3,8 +3,7 @@
  */
 package weka.classifiers.meta;
 
-import weka.classifiers.Classifier;
-import weka.classifiers.meta.RRC.RRCBasedWithValidation;
+import weka.classifiers.meta.RRCEns.RRCBasedWithValidation;
 import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.Utils;
@@ -13,11 +12,11 @@ import weka.tools.data.InstancesOperator;
 
 /**
  * @author Pawel Trajdos
- * @since 0.1.0
- * @version 0.1.0
+ * @since 1.0.0
+ * @version 1.0.0
  *
  */
-public class MetaBayesClassifier extends RRCBasedWithValidation implements GlobalInfoHandler {
+public class MetaBayesClassifierEns extends RRCBasedWithValidation implements GlobalInfoHandler {
 
 	/**
 	 * 
@@ -27,21 +26,6 @@ public class MetaBayesClassifier extends RRCBasedWithValidation implements Globa
 	protected double[] priorProbs;
 	
 	public static final double EPS = 1E-6;
-
-	/**
-	 * 
-	 */
-	public MetaBayesClassifier() {
-	}
-
-	/**
-	 * @param baseClassifier
-	 */
-	public MetaBayesClassifier(Classifier baseClassifier) {
-		super(baseClassifier);
-	}
-	
-	
 	
 
 	/* (non-Javadoc)
@@ -106,7 +90,7 @@ public class MetaBayesClassifier extends RRCBasedWithValidation implements Globa
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		runClassifier(new MetaBayesClassifier(), args);
+		runClassifier(new MetaBayesClassifierEns(), args);
 
 	}
 

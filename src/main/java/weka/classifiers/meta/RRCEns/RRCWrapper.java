@@ -56,7 +56,9 @@ public abstract class RRCWrapper extends RandomizableSingleClassifierEnhancer im
 	 */
 	@Override
 	public void buildClassifier(Instances arg0) throws Exception {
-		this.getCapabilities().testWithFail(arg0);
+		if(!this.getDoNotCheckCapabilities())
+			this.getCapabilities().testWithFail(arg0);
+		
 		this.m_Classifier.buildClassifier(arg0);
 		this.comWrapp.setClassifier(this.m_Classifier);
 
