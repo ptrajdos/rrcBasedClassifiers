@@ -15,6 +15,7 @@ import weka.estimators.density.BoundedEstimator;
 import weka.estimators.density.DensityEstimator;
 import weka.estimators.density.SimpleKernelEstimator;
 import weka.estimators.density.bandwidthFinders.MaximalSmoothingPrincipleBandwidthSelectionKernel;
+import weka.estimators.density.tools.ROIFinder;
 import weka.tools.SerialCopier;
 import weka.tools.numericIntegration.Function;
 import weka.tools.numericIntegration.Integrator;
@@ -53,7 +54,7 @@ public class RRCCalcEnsEstimator implements RRCCalcEns, Serializable, OptionHand
 		private DensityEstimator[] estimators;
 
 		@Override
-		public double getValue(double argument) {
+		public double value(double argument) {
 			
 			double pdf = this.estimators[this.currClass].getPDF(argument);
 			double product =1;
@@ -124,16 +125,21 @@ public class RRCCalcEnsEstimator implements RRCCalcEns, Serializable, OptionHand
 		integr.setFunction(distrFun);
 		integr.setLowerBound(0 + 1e-6);
 		integr.setUpperBound(1 - 1e-6);
-		integr.setDelta(1.0/this.integrationSequenceLength);
+		integr.setSequenceLength(integrationSequenceLength);
 		
+		double[] roi;
 		for(int c =0 ; c<numClasses;c++) {
+			roi = ROIFinder.findRoi(estimators[c], 1E-6, 1-1E-6, integrationSequenceLength);
 			distrFun.setCurrClass(c);
+			integr.setLowerBound(roi[0]);
+			integr.setUpperBound(roi[1]);
 			distribution[c] = integr.integrate();
 			
 		}
 		
 		double sum = Utils.sum(distribution);
 		//TODO in some datasets it is equal to zero thyroid  Truncated Normal and J48 classifier for example
+		//Probably caused by low wariance in the classifier prediction
 		Utils.normalize(distribution);
 			
 		

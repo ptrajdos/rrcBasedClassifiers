@@ -14,6 +14,9 @@ import weka.core.UtilsPT;
  * @version 1.0.0
  *
  */
+
+//TODO Test failures. Problems with low wariance parameter estimation.
+//TODO Problem with Inf values at the end of the [0,1] interval
 public class BetaEstimator extends AEstimator {
 
 	/**

@@ -106,16 +106,18 @@
     <dependency>
         <groupId>com.github.ptrajdos</groupId>
         <artifactId>WekaTools</artifactId>
-        <version>[0.12.0,)</version>
-        <type>test-jar</type>
-        <scope>test</scope>
+        <version>[1.0.0,)</version>
     </dependency>
-
+    
     <dependency>
         <groupId>com.github.ptrajdos</groupId>
         <artifactId>WekaTools</artifactId>
-        <version>[0.12.0,)</version>
+        <version>[1.0.0,)</version>
+        <type>test-jar</type>
+      <scope>test</scope>
     </dependency>
+
+
     
     <dependency>
     <groupId>colt</groupId>

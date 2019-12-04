@@ -8,5 +8,5 @@ public class TruncatedNormalEstimatorTest extends DensEstimatorTest {
 	}
 
 	
-
+	//TODO problems with low variance
 }

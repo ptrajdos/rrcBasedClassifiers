@@ -25,7 +25,7 @@ public class TruncatedNormalEstimator extends AEstimator {
 	
 	protected TruncatedNormal tNormalDistr;
 	
-	protected double eps =1e-6;
+	protected double eps =1e-3;
 
 	/**
 	 * @return the eps
@@ -70,8 +70,7 @@ public class TruncatedNormalEstimator extends AEstimator {
 	}
 	
 	protected void calculateDistribution() {
-		//TODO this is wrong estimation
-		//Consider using proper method with commons math3 Newton-Raphson solver
+		//TODO this is very rough estimator
 		if(this.isInitialised == true)return;
 		double[] values = this.listToArray();
 		double mean = Utils.mean(values);
