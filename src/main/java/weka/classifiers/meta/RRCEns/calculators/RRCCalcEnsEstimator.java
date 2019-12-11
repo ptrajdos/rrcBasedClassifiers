@@ -18,7 +18,6 @@ import weka.estimators.density.bandwidthFinders.MaximalSmoothingPrincipleBandwid
 import weka.estimators.density.tools.ROIFinder;
 import weka.tools.SerialCopier;
 import weka.tools.numericIntegration.Function;
-import weka.tools.numericIntegration.Integrator;
 import weka.tools.numericIntegration.SimpsonsIntegrator;
 
 /**

@@ -66,10 +66,12 @@ public class SCMClassifierEns extends RRCBasedWithValidation implements GlobalIn
 		double[] colSums = new double[numClasses];
 		Arrays.fill(colSums, delta);
 		double tmp=0;
+		double instanceWeight=1;
 		for(int i=0;i<numValInstances;i++) {
 			gtClass = (int) this.validationSet.get(i).classValue();
+			instanceWeight = this.validationSet.get(i).weight();
 			for(int c=0;c<numClasses;c++) {
-				tmp = this.validationResponses.get(i)[c]*neighCoeffs[i];
+				tmp = this.validationResponses.get(i)[c]*neighCoeffs[i]*instanceWeight;
 				matrix[gtClass][c]+= tmp;
 				colSums[c]+=tmp;
 			}

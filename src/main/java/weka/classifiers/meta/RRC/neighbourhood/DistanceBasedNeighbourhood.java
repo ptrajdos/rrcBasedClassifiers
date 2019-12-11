@@ -64,8 +64,10 @@ public abstract class DistanceBasedNeighbourhood implements NeighbourhoodCalcula
 		int numInstances = data.numInstances();
 		double[] distances = new double[numInstances];
 		this.distFun.setInstances(data);
+		Instance tmpInst = instance.copy(instance.toDoubleArray());
+		tmpInst.setClassMissing();
 		for(int i=0;i<numInstances;i++) {
-			distances[i] = this.distFun.distance(data.get(i), instance);
+			distances[i] = this.distFun.distance(data.get(i), tmpInst);
 		}
 		return distances;
 	}

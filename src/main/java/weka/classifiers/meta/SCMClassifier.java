@@ -16,7 +16,7 @@ import weka.tools.GlobalInfoHandler;
  * 
  * @author pawel trajdos
  * @since 0.1.0
- * @version 0.1.0
+ * @version 1.0.0
  *
  */
 public class SCMClassifier extends RRCBasedWithValidation implements GlobalInfoHandler{
@@ -81,10 +81,12 @@ public class SCMClassifier extends RRCBasedWithValidation implements GlobalInfoH
 		double[] colSums = new double[numClasses];
 		Arrays.fill(colSums, delta);
 		double tmp=0;
+		double instanceWeight=1;
 		for(int i=0;i<numValInstances;i++) {
+			instanceWeight = this.validationSet.get(i).weight();
 			gtClass = (int) this.validationSet.get(i).classValue();
 			for(int c=0;c<numClasses;c++) {
-				tmp = this.validationResponses.get(i)[c]*neighCoeffs[i];
+				tmp = this.validationResponses.get(i)[c]*neighCoeffs[i]*instanceWeight;
 				matrix[gtClass][c]+= tmp;
 				colSums[c]+=tmp;
 			}

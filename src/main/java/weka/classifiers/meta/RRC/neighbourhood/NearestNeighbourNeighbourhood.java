@@ -24,7 +24,7 @@ import weka.core.Utils;
  * 
  * @author pawel trajdos
  * @since 0.1.0
- * @version 0.1.0
+ * @version 1.0.0
  *
  */
 public class NearestNeighbourNeighbourhood extends DistanceBasedNeighbourhood {
@@ -58,7 +58,7 @@ public class NearestNeighbourNeighbourhood extends DistanceBasedNeighbourhood {
 		});
 		double[] newCoeffs  =new double[coeffs.length];
 		for(int i=0;i<this.neighbours;i++) {
-			newCoeffs[coefList.get(i).getKey()]=1.0;
+			newCoeffs[coefList.get(i).getKey()]=this.calculateWeight(coeffs[i]);
 		}
 		
 		return newCoeffs;
@@ -115,6 +115,10 @@ public class NearestNeighbourNeighbourhood extends DistanceBasedNeighbourhood {
 	    Collections.addAll(options, super.getOptions());
 	    
 	    return options.toArray(new String[0]);
+	}
+	
+	protected double calculateWeight(double distance) {
+		return 1.0;
 	}
 	
 
