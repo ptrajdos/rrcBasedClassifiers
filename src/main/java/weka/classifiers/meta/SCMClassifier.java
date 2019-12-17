@@ -9,6 +9,7 @@ import weka.classifiers.Classifier;
 import weka.classifiers.meta.RRC.RRCBasedWithValidation;
 import weka.classifiers.trees.J48;
 import weka.core.Instance;
+import weka.core.WeightedInstancesHandler;
 import weka.tools.GlobalInfoHandler;
 
 /**
@@ -19,7 +20,7 @@ import weka.tools.GlobalInfoHandler;
  * @version 1.0.0
  *
  */
-public class SCMClassifier extends RRCBasedWithValidation implements GlobalInfoHandler{
+public class SCMClassifier extends RRCBasedWithValidation implements GlobalInfoHandler, WeightedInstancesHandler{
 
 	/**
 	 * 
@@ -76,17 +77,16 @@ public class SCMClassifier extends RRCBasedWithValidation implements GlobalInfoH
 		double[] neighCoeffs = this.neighCalc.getNeighbourhoodCoeffs(this.validationSet, instance);
 		int numValInstances = this.validationSet.numInstances();
 		int gtClass=0;
-		double neighCoeffsSum =0;
 		delta = EPS/numClasses;
 		double[] colSums = new double[numClasses];
 		Arrays.fill(colSums, delta);
 		double tmp=0;
-		double instanceWeight=1;
+		
 		for(int i=0;i<numValInstances;i++) {
-			instanceWeight = this.validationSet.get(i).weight();
+			
 			gtClass = (int) this.validationSet.get(i).classValue();
 			for(int c=0;c<numClasses;c++) {
-				tmp = this.validationResponses.get(i)[c]*neighCoeffs[i]*instanceWeight;
+				tmp = this.validationResponses.get(i)[c]*neighCoeffs[i];
 				matrix[gtClass][c]+= tmp;
 				colSums[c]+=tmp;
 			}
