@@ -9,23 +9,26 @@ import java.util.Vector;
 
 import weka.classifiers.Classifier;
 import weka.classifiers.RandomizableSingleClassifierEnhancer;
+import weka.classifiers.UpdateableClassifier;
 import weka.classifiers.meta.RRC.calculators.RRCCalc;
 import weka.classifiers.meta.RRC.calculators.RRCCalcBeta;
 import weka.classifiers.trees.J48;
 import weka.core.Capabilities;
 import weka.core.Capabilities.Capability;
+import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.Option;
-import weka.core.OptionHandler;
 import weka.core.Utils;
+import weka.core.UtilsPT;
+import weka.tools.GlobalInfoHandler;
 
 /**
  * @author pawel trajdos
  * @since 0.1.0
- * @version 0.1.0
+ * @version 2.0.0
  *
  */
-public abstract class RRCWrapper extends RandomizableSingleClassifierEnhancer {
+public abstract class RRCWrapper extends RandomizableSingleClassifierEnhancer implements UpdateableClassifier,GlobalInfoHandler {
 
 	/**
 	 * 
@@ -35,6 +38,8 @@ public abstract class RRCWrapper extends RandomizableSingleClassifierEnhancer {
 	
 	
 	protected RRCCalc rrcCalc = new RRCCalcBeta();
+	
+	private boolean updateBaseClassifier=true;
 
 	/**
 	 * 
@@ -92,7 +97,12 @@ public abstract class RRCWrapper extends RandomizableSingleClassifierEnhancer {
 		 newVector.addElement(new Option(
 			      "\tThe RRC-probabilities-calculator to use"+
 		          "(default:" + RRCCalcBeta.class.toGenericString()  + ").\n",
-			      "RRC", 0, "-RRC"));
+			      "RRC", 1, "-RRC"));
+		 
+		 newVector.addElement(new Option(
+			      "\tDetermines whether the base classifier should be updated"+
+		          "(default:" + "TRUE"  + ").\n",
+			      "UPD", 0, "-UPD"));
 		 
 		 newVector.addAll(Collections.list(super.listOptions()));
 		    
@@ -105,23 +115,10 @@ public abstract class RRCWrapper extends RandomizableSingleClassifierEnhancer {
 	 */
 	@Override
 	public void setOptions(String[] options) throws Exception {
-		String rrcCalcString = Utils.getOption("RRC", options);
-	    if(rrcCalcString.length() != 0) {
-	      String rrcCalcClassSpec[] = Utils.splitOptions(rrcCalcString);
-	      if(rrcCalcClassSpec.length == 0) { 
-	        throw new Exception("Invalid  RRC calculator String" ); 
-	      }
-	      String className = rrcCalcClassSpec[0];
-	      rrcCalcClassSpec[0] = "";
-
-	      this.setRrcCalc( (RRCCalc)
-	                  Utils.forName( RRCCalc.class, 
-	                                 className, 
-	                                 rrcCalcClassSpec)
-	                                        );
-	    }
-	    else 
-	      this.setRrcCalc(new RRCCalcBeta());
+		
+		this.setRrcCalc((RRCCalc) UtilsPT.parseObjectOptions(options, "RRC", new RRCCalcBeta(), RRCCalc.class));
+		this.setUpdateBaseClassifier(Utils.getFlag("UPD", options));
+		
 		
 		super.setOptions(options);
 	}
@@ -136,11 +133,10 @@ public abstract class RRCWrapper extends RandomizableSingleClassifierEnhancer {
 	    
 
 	    options.add("-RRC");
-	    String rrcCalcOptions[] = new String[] {""};
-	    if(this.rrcCalc instanceof OptionHandler) {
-	    	rrcCalcOptions = ((OptionHandler) this.rrcCalc).getOptions();
-	    }
-	    options.add(this.rrcCalc.getClass().getName()+" "+Utils.joinOptions(rrcCalcOptions)); 
+	    options.add(UtilsPT.getClassAndOptions(this.rrcCalc));
+	    
+	    if(this.updateBaseClassifier)
+	    	options.add("-UPD");
 	    
 	    Collections.addAll(options, super.getOptions());
 	    
@@ -156,6 +152,46 @@ public abstract class RRCWrapper extends RandomizableSingleClassifierEnhancer {
 		baseCaps.disable(Capability.NUMERIC_CLASS);
 		baseCaps.enable(Capability.NOMINAL_CLASS);
 		return baseCaps; 
+	}
+	
+	
+	/* (non-Javadoc)
+	 * @see weka.tools.GlobalInfoHandler#globalInfo()
+	 */
+	@Override
+	public String globalInfo() {
+		return "Wrapper for classifiers based on the RRC framework";
+	}
+
+	/**
+	 * @return the updateBaseClassifier
+	 */
+	public boolean isUpdateBaseClassifier() {
+		return this.updateBaseClassifier;
+	}
+
+
+	/**
+	 * @param updateBaseClassifier the updateBaseClassifier to set
+	 */
+	public void setUpdateBaseClassifier(boolean updateBaseClassifier) {
+		this.updateBaseClassifier = updateBaseClassifier;
+	}
+	
+	public String updateBaseClassifierTipText() {
+		return "Determines whether the base classifier should be updated.";
+	}
+
+
+	/* (non-Javadoc)
+	 * @see weka.classifiers.UpdateableClassifier#updateClassifier(weka.core.Instance)
+	 */
+	@Override
+	public void updateClassifier(Instance instance) throws Exception {
+		if(this.m_Classifier instanceof UpdateableClassifier & this.updateBaseClassifier) {
+			((UpdateableClassifier) this.m_Classifier).updateClassifier(instance);
+		}
+		
 	}
 
 

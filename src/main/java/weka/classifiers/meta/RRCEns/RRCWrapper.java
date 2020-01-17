@@ -8,12 +8,14 @@ import java.util.Enumeration;
 import java.util.Vector;
 
 import weka.classifiers.RandomizableSingleClassifierEnhancer;
+import weka.classifiers.UpdateableClassifier;
 import weka.classifiers.meta.CommitteeWrapper;
 import weka.classifiers.meta.RRCEns.calculators.RRCCalcEns;
 import weka.classifiers.meta.RRCEns.calculators.RRCCalcEnsEstimator;
 import weka.classifiers.meta.committees.Committee;
 import weka.core.Capabilities;
 import weka.core.Capabilities.Capability;
+import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.Option;
 import weka.core.UtilsPT;
@@ -22,10 +24,10 @@ import weka.tools.GlobalInfoHandler;
 /**
  * @author pawel trajdos
  * @since 1.0.0
- * @version 1.0.0
+ * @version 2.0.0
  *
  */
-public abstract class RRCWrapper extends RandomizableSingleClassifierEnhancer implements GlobalInfoHandler {
+public abstract class RRCWrapper extends RandomizableSingleClassifierEnhancer implements UpdateableClassifier,GlobalInfoHandler {
 
 	/**
 	 * 
@@ -37,6 +39,8 @@ public abstract class RRCWrapper extends RandomizableSingleClassifierEnhancer im
 	 * RRC calculator to use
 	 */
 	protected RRCCalcEns rrcCalc = new RRCCalcEnsEstimator();
+	
+	private boolean updateBaseClassifier=true;
 	
 	
 	/**
@@ -163,6 +167,37 @@ public abstract class RRCWrapper extends RandomizableSingleClassifierEnhancer im
 		return this.comWrapp;
 	}
 	
+	/**
+	 * @return the updateBaseClassifier
+	 */
+	public boolean isUpdateBaseClassifier() {
+		return this.updateBaseClassifier;
+	}
+
+
+	/**
+	 * @param updateBaseClassifier the updateBaseClassifier to set
+	 */
+	public void setUpdateBaseClassifier(boolean updateBaseClassifier) {
+		this.updateBaseClassifier = updateBaseClassifier;
+	}
+	
+	public String updateBaseClassifierTipText() {
+		return "Determines whether the base classifier should be updated.";
+	}
+
+
+	/* (non-Javadoc)
+	 * @see weka.classifiers.UpdateableClassifier#updateClassifier(weka.core.Instance)
+	 */
+	@Override
+	public void updateClassifier(Instance instance) throws Exception {
+		if(this.m_Classifier instanceof UpdateableClassifier & this.updateBaseClassifier) {
+			((UpdateableClassifier) this.m_Classifier).updateClassifier(instance);
+		}
+		
+	}
+
 	
 
 }

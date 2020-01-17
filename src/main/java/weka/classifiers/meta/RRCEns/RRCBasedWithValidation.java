@@ -24,7 +24,7 @@ import weka.tools.data.InstancesOperator;
  * The classifier uses validation and training sets generated using crossvalidation.
  * @author pawel trajdos
  * @since 1.0.0
- * @version 1.0.0
+ * @version 2.0.0
  *
  */
 public abstract class RRCBasedWithValidation extends RRCWrapper {
@@ -60,7 +60,7 @@ public abstract class RRCBasedWithValidation extends RRCWrapper {
 	
 	protected List<double[]> validationResponses; 
 	
-	
+	protected boolean keepOldValidationInstances = false;
 	
 
 	/* (non-Javadoc)
@@ -289,6 +289,47 @@ public abstract class RRCBasedWithValidation extends RRCWrapper {
 		this.kFolds = kFolds;
 	}
 	
+	/**
+	 * @return the keepOldValidationInstances
+	 */
+	public boolean isKeepOldValidationInstances() {
+		return this.keepOldValidationInstances;
+	}
+
+	/**
+	 * @param keepOldValidationInstances the keepOldValidationInstances to set
+	 */
+	public void setKeepOldValidationInstances(boolean keepOldValidationInstances) {
+		this.keepOldValidationInstances = keepOldValidationInstances;
+	}
+	
+	public String keepOldValidationInstancesTipText() {
+		return "Determines whether old instances in the validation set should be kept";
+	}
+
+	/* (non-Javadoc)
+	 * @see weka.classifiers.meta.RRC.RRCWrapper#updateClassifier(weka.core.Instance)
+	 */
+	@Override
+	public void updateClassifier(Instance instance) throws Exception {
+		this.updateValidationSet(instance);
+		super.updateClassifier(instance);
+	}
+	
+	
+	protected void updateValidationSet(Instance instance) throws Exception {
+	
+		//Remove the oldest instance from the set
+		if(!this.keepOldValidationInstances) {
+			this.validationSet.remove(0);
+			this.validationResponses.remove(0);
+		}
+		
+		//Add new validation instance
+		this.validationSet.add(instance);
+		this.validationResponses.add(this.rrcCalc.calculateRRC(this.getCommittee().distributionForInstanceCommittee(instance)));
+	 
+	} 
 	
 	
 
