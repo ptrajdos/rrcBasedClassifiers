@@ -17,7 +17,7 @@ import weka.tools.GlobalInfoHandler;
  * 
  * @author pawel trajdos
  * @since 0.1.0
- * @version 1.0.0
+ * @version 2.0.0
  *
  */
 public class SCMClassifier extends RRCBasedWithValidation implements GlobalInfoHandler, WeightedInstancesHandler{
@@ -75,6 +75,10 @@ public class SCMClassifier extends RRCBasedWithValidation implements GlobalInfoH
 				
 		
 		double[] neighCoeffs = this.neighCalc.getNeighbourhoodCoeffs(this.validationSet, instance);
+		
+		for(int i=0;i<neighCoeffs.length;i++)
+			neighCoeffs[i]*=this.instanceDecayWeights.get(i);
+		
 		int numValInstances = this.validationSet.numInstances();
 		int gtClass=0;
 		delta = EPS/numClasses;

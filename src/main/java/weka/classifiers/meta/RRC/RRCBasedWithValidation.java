@@ -6,6 +6,7 @@ package weka.classifiers.meta.RRC;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 
@@ -60,9 +61,23 @@ public abstract class RRCBasedWithValidation extends RRCWrapper {
 	 */
 	protected int kFolds=2;
 	
+	/**
+	 * Classifier responses on validation examples
+	 */
 	protected List<double[]> validationResponses; 
 	
+	/**
+	 * Determines whether old instances should be kept
+	 */
 	protected boolean keepOldValidationInstances = false;
+	
+	
+	/**
+	 * Decay factor for instances in the validation set
+	 */
+	protected double decayFactor=1E-3;
+	
+	protected List<Double> instanceDecayWeights; 
 	
 
 	/**
@@ -94,6 +109,7 @@ public abstract class RRCBasedWithValidation extends RRCWrapper {
 		}else {
 			this.buildSplit(arg0);
 		}
+		this.initialiseDecayFactors();
 	}
 	
 	protected void buildSplit(Instances inst) throws Exception {
@@ -173,6 +189,11 @@ public abstract class RRCBasedWithValidation extends RRCWrapper {
 		          "(default: false ).\n",
 			      "KI", 0, "-KI"));
 		 
+		 newVector.addElement(new Option(
+			      "\t Determines whether old instances in the validation set should be kept"+
+		          "(default: 1E-3 ).\n",
+			      "DF", 1, "-DF"));
+		 
 		 
 		 
 		 newVector.addAll(Collections.list(super.listOptions()));
@@ -197,6 +218,8 @@ public abstract class RRCBasedWithValidation extends RRCWrapper {
 		this.setNeighCalc((NeighbourhoodCalculator) UtilsPT.parseObjectOptions(options, "NC", new DummyNeighbourhood(), NeighbourhoodCalculator.class));
 		
 		this.setKeepOldValidationInstances(Utils.getFlag("KI", options));
+		
+		this.setDecayFactor(UtilsPT.parseDoubleOption(options, "DF", 1E-3));
 	}
 
 	/* (non-Javadoc)
@@ -222,6 +245,9 @@ public abstract class RRCBasedWithValidation extends RRCWrapper {
 	    
 	    if(this.keepOldValidationInstances)
 	    	options.add("KI");
+	    
+	    options.add("-DF");
+	    options.add(""+this.decayFactor);
 	    
 	    
 	    Collections.addAll(options, super.getOptions());
@@ -306,6 +332,23 @@ public abstract class RRCBasedWithValidation extends RRCWrapper {
 	}
 	
 	
+	/**
+	 * @return the decayFactor
+	 */
+	public double getDecayFactor() {
+		return this.decayFactor;
+	}
+
+	/**
+	 * @param decayFactor the decayFactor to set
+	 */
+	public void setDecayFactor(double decayFactor) {
+		this.decayFactor = decayFactor;
+	}
+	
+	public String decayFactorTipText() {
+		return "Determines the decay factor for instances in validation set";
+	}
 
 	/**
 	 * @return the keepOldValidationInstances
@@ -342,12 +385,33 @@ public abstract class RRCBasedWithValidation extends RRCWrapper {
 			this.validationSet.remove(0);
 			this.validationResponses.remove(0);
 		}
+		reweightValidationInstances();
 		
 		//Add new validation instance
 		this.validationSet.add(instance);
 		this.validationResponses.add(this.rrcCalc.calculateRRC(this.m_Classifier.distributionForInstance(instance)));
+		this.instanceDecayWeights.add(1.0);
 	 
 	} 
+	
+	protected void initialiseDecayFactors() {
+		this.instanceDecayWeights = new LinkedList<Double>();
+		int valSetSize = this.validationSet.size();
+		for(int i=0;i<valSetSize;i++)
+			this.instanceDecayWeights.add(1.0);
+	}
+	
+	protected void reweightValidationInstances() {
+		List<Double> newWeights = new LinkedList<Double>();
+		int valSetSize = this.validationSet.size();
+		double value;
+		for(int i=0;i<valSetSize;i++) {
+			value = this.instanceDecayWeights.get(i).doubleValue();
+			value*=(1-this.decayFactor);
+			newWeights.add(value);
+		}
+		this.instanceDecayWeights = newWeights;
+	}
 	
 	
 

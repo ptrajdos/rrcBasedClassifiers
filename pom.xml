@@ -42,7 +42,7 @@
     </repository>
     
   
-  </repositories>
+ </repositories>
 
   <distributionManagement>
   <snapshotRepository>

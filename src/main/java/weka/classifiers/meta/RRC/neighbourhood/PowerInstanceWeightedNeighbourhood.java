@@ -111,10 +111,10 @@ public class PowerInstanceWeightedNeighbourhood extends InstanceWeightedNeighbou
 	public String[] getOptions() {
 		Vector<String> options = new Vector<String>();
 		
-		options.add("EXP");
+		options.add("-EXP");
 		options.add(""+this.exponent);
 		
-		options.add("EXPL");
+		options.add("-EXPL");
 		options.add(""+this.expLowerBound);
 		
 		
