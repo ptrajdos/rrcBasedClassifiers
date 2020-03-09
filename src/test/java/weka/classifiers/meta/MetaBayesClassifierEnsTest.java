@@ -2,10 +2,11 @@ package weka.classifiers.meta;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
-import weka.classifiers.AbstractClassifierTest;
 import weka.classifiers.Classifier;
+import weka.classifiers.meta.RRCEns.RRCBasedWithValidationTest;
+import weka.classifiers.meta.RRCEns.RRCWrapperTest;
 
-public class MetaBayesClassifierEnsTest  extends AbstractClassifierTest{
+public class MetaBayesClassifierEnsTest  extends RRCBasedWithValidationTest{
 
 	public MetaBayesClassifierEnsTest(String name) {
 		super(name);

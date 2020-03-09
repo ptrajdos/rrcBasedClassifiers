@@ -217,6 +217,10 @@ return finalPredictions;
 	public void setSdPower(double sdPower) {
 		this.sdPower = sdPower;
 	}
+	
+	public String sdPowerTipText() {
+		return "Power of SD ised in calculator";
+	}
 
 	
 	

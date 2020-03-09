@@ -96,7 +96,7 @@ public class GaussianNeighbourhood extends DistanceBasedNeighbourhood implements
 		Vector<String> options = new Vector<String>();
 
 	    options.add("-AL");
-	    options.add(""+this.alpha);
+	    options.add(""+this.getAlpha());
 	    
 	    Collections.addAll(options, super.getOptions());
 	    

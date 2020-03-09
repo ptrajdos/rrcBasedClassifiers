@@ -1,17 +1,10 @@
 package weka.classifiers.meta.RRC.neighbourhood;
 
-import weka.core.OptionHandlersTest.OptionHandlerTest;
+public class NearestNeighbourInverseWeightNeighbourhoodTest extends NearestNeighbourNeighbourhoodTest {
 
-public class NearestNeighbourInverseWeightNeighbourhoodTest extends OptionHandlerTest {
-
-	public NearestNeighbourInverseWeightNeighbourhoodTest(String name, String classname) {
-		super(name, classname);
+	@Override
+	public NeighbourhoodCalculator getNeighbourhoodCalculator() {
+		return new NearestNeighbourInverseWeightNeighbourhood();
 	}
-	
-	public NearestNeighbourInverseWeightNeighbourhoodTest(String name) {
-		super(name, NearestNeighbourInverseWeightNeighbourhood.class.getCanonicalName());
-	}
-
-
 
 }

@@ -49,6 +49,10 @@ public abstract class ThresholdNeighbourhoodModifier implements NeighbourhoodCal
 	public void setThreshold(double threshold) {
 		this.threshold = threshold;
 	}
+	
+	public String thresholdTipText() {
+		return "Threshold to use";
+	}
 
 	/**
 	 * @return the neighCalc
@@ -62,6 +66,10 @@ public abstract class ThresholdNeighbourhoodModifier implements NeighbourhoodCal
 	 */
 	public void setNeighCalc(NeighbourhoodCalculator neighCalc) {
 		this.neighCalc = neighCalc;
+	}
+	
+	public String neighCalcTipText(){
+		return "Neighbourhood calculator to use";
 	}
 
 	@Override

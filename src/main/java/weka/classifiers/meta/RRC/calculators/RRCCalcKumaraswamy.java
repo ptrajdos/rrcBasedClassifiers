@@ -4,9 +4,13 @@
 package weka.classifiers.meta.RRC.calculators;
 
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.Vector;
 
 import cern.jet.stat.Gamma;
 import weka.classifiers.meta.RRC.tools.KumaraswamyCDFCalFast;
+import weka.core.Option;
 import weka.core.Utils;
 import weka.tools.Linspace;
 
@@ -14,10 +18,10 @@ import weka.tools.Linspace;
  * The class implements the RRC classifier using Kumaraswamy distribution. 
  * @author pawel trajdos
  * @since 0.1.0
- * @version 0.1.0
+ * @version 1.0.0
  *
  */
-public class RRCCalcKumaraswamy implements RRCCalc, Serializable {
+public class RRCCalcKumaraswamy extends RRCCalcAbstract implements RRCCalc, Serializable {
 
 	/**
 	 * 
@@ -30,10 +34,7 @@ public class RRCCalcKumaraswamy implements RRCCalc, Serializable {
 	
 	public static final int intLen = 51;
 	
-	protected int integrLen  = RRCCalcKumaraswamy.intLen;
-	
-	public static final double EPS=1E-6;
-	
+
 	protected boolean fastComp = true;
 	
 
@@ -354,18 +355,6 @@ return finalPredictions;
 	}
 	
 	/**
-	 * @return the integrLen
-	 */
-	public int getIntegrLen() {
-		return this.integrLen;
-	}
-	/**
-	 * @param integrLen the integrLen to set
-	 */
-	public void setIntegrLen(int integrLen) {
-		this.integrLen = integrLen;
-	}
-	/**
 	 * @return the fastComp
 	 */
 	public boolean isFastComp() {
@@ -376,6 +365,43 @@ return finalPredictions;
 	 */
 	public void setFastComp(boolean fastComp) {
 		this.fastComp = fastComp;
+	}
+	
+	public String fastCompTipText() {
+		return "Indicates whether the fast computing scheme is used";
+	}
+	
+	@Override
+	public Enumeration<Option> listOptions() {
+		Vector<Option> newVector = new Vector<Option>(1);
+		
+		 newVector.addElement(new Option(
+			      "\tIndicates whether fast computation scheme is used"+
+		          "(default:" + false  + ").\n",
+			      "FC", 0, "-FC"));
+		 
+		 newVector.addAll(Collections.list(super.listOptions()));
+		    
+		return newVector.elements();
+	}
+	@Override
+	public void setOptions(String[] options) throws Exception {
+		
+		this.setFastComp(Utils.getFlag("FC", options));
+		
+		super.setOptions(options);
+	}
+	@Override
+	public String[] getOptions() {
+		Vector<String> options = new Vector<String>();
+		
+		if(this.isFastComp())
+			options.add("-FC");
+		
+		  
+	    Collections.addAll(options, super.getOptions());
+	    
+	    return options.toArray(new String[0]);
 	}
 	
 

@@ -11,13 +11,14 @@ import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.Option;
 import weka.core.OptionHandler;
+import weka.core.Utils;
 import weka.core.UtilsPT;
 import weka.core.distances.MahalanobisDistance;
 
 /**
  * @author pawel
  * @since 0.2.0
- * @version 0.2.0
+ * @version 1.0.0
  *
  */
 public class DynamicMahalanobisNeighbourhood implements NeighbourhoodCalculator, Serializable, OptionHandler {
@@ -70,6 +71,16 @@ public class DynamicMahalanobisNeighbourhood implements NeighbourhoodCalculator,
 			      "\tAlpha factor for gaussian neighbourhood"+
 		          "(default: 1.0 ).\n",
 			      "A", 1, "-A"));
+		 
+		 newVector.addElement(new Option(
+			      "\tNormalize"+
+		          "(default: false ).\n",
+			      "NOR", 0, "-NOR"));
+		 
+		 newVector.addElement(new Option(
+			      "\tInit Weights Calculator"+
+		          "(default: 1.0 ).\n",
+			      "IWC", 1, "-IWC"));
 		    
 		return newVector.elements();
 	}
@@ -78,6 +89,8 @@ public class DynamicMahalanobisNeighbourhood implements NeighbourhoodCalculator,
 	public void setOptions(String[] options) throws Exception {
 		
 		this.setAlpha(UtilsPT.parseDoubleOption(options, "A", 1.0));
+		this.setNormalize(Utils.getFlag("NOR", options));
+		this.setInitWeightsCalc((GaussianNeighbourhood) UtilsPT.parseObjectOptions(options, "IWC", new GaussianNeighbourhood(), NeighbourhoodCalculator.class));
 	}
 
 	@Override
@@ -86,7 +99,13 @@ public class DynamicMahalanobisNeighbourhood implements NeighbourhoodCalculator,
 	    
 
 	    options.add("-A");
-	    options.add(""+this.alpha);
+	    options.add(""+this.getAlpha());
+	    
+	    if(this.isNormalize())
+	    	options.add("-NOR");
+	    
+	    options.add("-IWC");
+	    options.add(UtilsPT.getClassAndOptions(this.getInitWeightsCalc()));
 	    
 	    return options.toArray(new String[0]);
 	}
@@ -107,6 +126,10 @@ public class DynamicMahalanobisNeighbourhood implements NeighbourhoodCalculator,
 		this.distNeigh.setAlpha(alpha);
 	}
 	
+	public String alphaTipText() {
+		return "Alpha coefficient";
+	}
+	
 	/**
 	 * @return the normalize
 	 */
@@ -120,6 +143,10 @@ public class DynamicMahalanobisNeighbourhood implements NeighbourhoodCalculator,
 	public void setNormalize(boolean normalize) {
 		this.normalize = normalize;
 		this.mahDist.setNormalize(normalize);
+	}
+	
+	public String normalizeTipText() {
+		return "Determines whether the Mahalanobis distance should be normalized.";
 	}
 
 	/**
@@ -136,6 +163,9 @@ public class DynamicMahalanobisNeighbourhood implements NeighbourhoodCalculator,
 		this.initWeightsCalc = initWeightsCalc;
 	}
 	
+	public String initWeightsCalcTipText() {
+		return "Initial Weights calculator to use";
+	}
 	
 	
 

@@ -4,10 +4,10 @@ package weka.classifiers.meta;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
-import weka.classifiers.AbstractClassifierTest;
 import weka.classifiers.Classifier;
+import weka.classifiers.meta.RRCEns.RRCBasedWithValidationTest;
 
-public class SCMClassifierEnsTest extends AbstractClassifierTest {
+public class SCMClassifierEnsTest extends RRCBasedWithValidationTest {
 
 	public SCMClassifierEnsTest(String name) {
 		super(name);

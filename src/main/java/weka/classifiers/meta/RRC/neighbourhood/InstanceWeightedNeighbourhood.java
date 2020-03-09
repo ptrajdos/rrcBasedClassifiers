@@ -90,6 +90,10 @@ public class InstanceWeightedNeighbourhood implements NeighbourhoodCalculator, S
 	public void setBaseNeighCalc(NeighbourhoodCalculator baseNeighCalc) {
 		this.baseNeighCalc = baseNeighCalc;
 	}
+	
+	public String baseNeighCalcTipText() {
+		return "Neighbourhood calculator to use inside";
+	}
 
 	/* (non-Javadoc)
 	 * @see weka.core.OptionHandler#listOptions()

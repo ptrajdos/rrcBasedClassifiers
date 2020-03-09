@@ -50,6 +50,10 @@ public class PowerInstanceWeightedNeighbourhood extends InstanceWeightedNeighbou
 	public void setExponent(double exponent) {
 		this.exponent = exponent;
 	}
+	
+	public String exponentTipText() {
+		return "Exponent value to use";
+	}
 
 
 	/* (non-Javadoc)
@@ -112,10 +116,10 @@ public class PowerInstanceWeightedNeighbourhood extends InstanceWeightedNeighbou
 		Vector<String> options = new Vector<String>();
 		
 		options.add("-EXP");
-		options.add(""+this.exponent);
+		options.add(""+this.getExponent());
 		
 		options.add("-EXPL");
-		options.add(""+this.expLowerBound);
+		options.add(""+this.getExpLowerBound());
 		
 		
 		Collections.addAll(options, super.getOptions());
@@ -136,6 +140,10 @@ public class PowerInstanceWeightedNeighbourhood extends InstanceWeightedNeighbou
 	 */
 	public void setExpLowerBound(double expLowerBound) {
 		this.expLowerBound = expLowerBound;
+	}
+	
+	public String expLowerBoundTipText() {
+		return "Exponent lower bound to use";
 	}
 	
 	

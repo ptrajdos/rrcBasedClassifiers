@@ -1,13 +1,9 @@
 package weka.classifiers.meta;
 
-import static org.junit.Assert.*;
-
-import org.junit.Test;
-
 import weka.classifiers.AbstractClassifierTest;
 import weka.classifiers.Classifier;
 
-public class RandomClassifierFullTest extends AbstractClassifierTest {
+public class RandomClassifierFullTest extends RandomClassifierTest {
 
 	public RandomClassifierFullTest(String name) {
 		super(name);
@@ -17,6 +13,8 @@ public class RandomClassifierFullTest extends AbstractClassifierTest {
 	public Classifier getClassifier() {
 		return new RandomClassifierFull();
 	}
+	
+	
 
 
 }

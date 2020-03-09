@@ -15,6 +15,7 @@ import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.Option;
 import weka.core.Utils;
+import weka.core.UtilsPT;
 
 /**
  * Nearest neighbour distance function.
@@ -78,6 +79,10 @@ public class NearestNeighbourNeighbourhood extends DistanceBasedNeighbourhood {
 		this.neighbours = neighbours;
 	}
 	
+	public String neighboursTipText() {
+		return "Number of the nearest neighbours to use";
+	}
+	
 	@Override
 	public Enumeration<Option> listOptions() {
 		Vector<Option> newVector = new Vector<Option>(1);
@@ -96,12 +101,8 @@ public class NearestNeighbourNeighbourhood extends DistanceBasedNeighbourhood {
 	public void setOptions(String[] options) throws Exception {
 		super.setOptions(options);
 		
-		String neighString = Utils.getOption("NN", options);
-		if(neighString.length()!=0) {
-			this.neighbours = Integer.parseInt(neighString);
-		}else {
-			this.neighbours=3;
-		}
+		this.setNeighbours(UtilsPT.parseIntegerOption(options, "NN", 3));
+		
 		
 	}
 
@@ -110,7 +111,7 @@ public class NearestNeighbourNeighbourhood extends DistanceBasedNeighbourhood {
 		Vector<String> options = new Vector<String>();
 
 	    options.add("-NN");
-	    options.add(""+this.neighbours);
+	    options.add(""+this.getNeighbours());
 	    
 	    Collections.addAll(options, super.getOptions());
 	    

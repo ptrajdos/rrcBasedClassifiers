@@ -2,14 +2,13 @@ package weka.classifiers.meta;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
-import weka.classifiers.AbstractClassifierTest;
 import weka.classifiers.Classifier;
+import weka.classifiers.meta.RRC.RRCBasedWithValidationTest;
 
-public class SCMClassifierTest extends AbstractClassifierTest{
+public class SCMClassifierTest extends RRCBasedWithValidationTest {
 
 	public SCMClassifierTest(String name) {
 		super(name);
-		
 	}
 
 

@@ -133,9 +133,9 @@ public abstract class RRCWrapper extends RandomizableSingleClassifierEnhancer im
 	    
 
 	    options.add("-RRC");
-	    options.add(UtilsPT.getClassAndOptions(this.rrcCalc));
+	    options.add(UtilsPT.getClassAndOptions(this.getRrcCalc()));
 	    
-	    if(this.updateBaseClassifier)
+	    if(this.isUpdateBaseClassifier())
 	    	options.add("-UPD");
 	    
 	    Collections.addAll(options, super.getOptions());

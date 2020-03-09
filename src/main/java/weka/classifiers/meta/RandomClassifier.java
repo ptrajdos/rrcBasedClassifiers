@@ -47,6 +47,8 @@ public abstract class RandomClassifier extends RandomizableSingleClassifierEnhan
 	 */
 	@Override
 	public void buildClassifier(Instances data) throws Exception {
+		if(!this.m_DoNotCheckCapabilities)
+			this.getCapabilities().testWithFail(data);
 		this.m_Classifier.buildClassifier(data);
 
 	}

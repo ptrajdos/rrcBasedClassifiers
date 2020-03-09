@@ -42,6 +42,7 @@ public class RandomClassifierFull extends RandomClassifier {
 	 */
 	@Override
 	public double[] distributionForInstance(Instance instance) throws Exception {
+		
 		if(!isRandomizeResponse()) 
 			return this.m_Classifier.distributionForInstance(instance);
 		

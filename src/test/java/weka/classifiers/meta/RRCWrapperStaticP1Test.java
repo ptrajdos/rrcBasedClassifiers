@@ -4,8 +4,9 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 import weka.classifiers.AbstractClassifierTest;
 import weka.classifiers.Classifier;
+import weka.classifiers.meta.RRC.RRCWrapperTest;
 
-public class RRCWrapperStaticP1Test extends AbstractClassifierTest {
+public class RRCWrapperStaticP1Test extends RRCWrapperTest {
 
 	 public RRCWrapperStaticP1Test(String name) {
 		super(name);

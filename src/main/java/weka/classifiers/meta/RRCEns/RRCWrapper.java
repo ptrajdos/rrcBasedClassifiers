@@ -18,6 +18,7 @@ import weka.core.Capabilities.Capability;
 import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.Option;
+import weka.core.Utils;
 import weka.core.UtilsPT;
 import weka.tools.GlobalInfoHandler;
 
@@ -97,10 +98,16 @@ public abstract class RRCWrapper extends RandomizableSingleClassifierEnhancer im
 	@Override
 	public Enumeration<Option> listOptions() {
 		Vector<Option> newVector = new Vector<Option>(1);
+		
 		newVector.addElement(new Option(
 			      "\tThe RRC calculator  to use "+
 		          "(default: weka.classifiers.meta.RRCEns.calculators.RRCCalcEnsTransientAverage).\n",
 			      "RRC", 1, "-RRC"));
+		
+		newVector.addElement(new Option(
+			      "\tUpdate base classifier"+
+		          "(default: true).\n",
+			      "UB",0, "-UB"));
 		 
 		newVector.addAll(Collections.list(super.listOptions()));
 
@@ -116,6 +123,9 @@ public abstract class RRCWrapper extends RandomizableSingleClassifierEnhancer im
 		
 		this.setRrcCalc((RRCCalcEns) UtilsPT.parseObjectOptions(options, "RRC", new RRCCalcEnsEstimator(), RRCCalcEns.class));
 		
+		
+		this.setUpdateBaseClassifier(Utils.getFlag("UB", options));
+		
 		super.setOptions(options);
 	}
 
@@ -129,7 +139,10 @@ public abstract class RRCWrapper extends RandomizableSingleClassifierEnhancer im
 	    
 
 	    options.add("-RRC");
-	    options.add(UtilsPT.getClassAndOptions(this.rrcCalc));
+	    options.add(UtilsPT.getClassAndOptions(this.getRrcCalc()));
+	    
+	    if(this.isUpdateBaseClassifier())
+	    	options.add("-UB");
 	    
 	    Collections.addAll(options, super.getOptions());
 	    

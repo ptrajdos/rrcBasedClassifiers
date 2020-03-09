@@ -179,10 +179,10 @@ public class RRCCalcEnsEstimator implements RRCCalcEns, Serializable, OptionHand
 		Vector<String> options = new Vector<String>();
 	    
 	    options.add("-EST");
-	    options.add(UtilsPT.getClassAndOptions(this.estimator));
+	    options.add(UtilsPT.getClassAndOptions(this.getEstimator()));
 	    
 	    options.add("-ILEN");
-	    options.add(""+this.integrationSequenceLength);
+	    options.add(""+this.getIntegrationSequenceLength());
 	    
 	    return options.toArray(new String[0]);
 	}
@@ -199,6 +199,10 @@ public class RRCCalcEnsEstimator implements RRCCalcEns, Serializable, OptionHand
 	 */
 	public void setEstimator(DensityEstimator estimator) {
 		this.estimator = estimator;
+	}
+	
+	public String estimatorTipText() {
+		return "Estimator to use";
 	}
 
 	/**

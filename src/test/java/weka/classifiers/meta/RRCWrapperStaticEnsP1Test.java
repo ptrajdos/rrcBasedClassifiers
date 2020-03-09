@@ -2,10 +2,11 @@ package weka.classifiers.meta;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
-import weka.classifiers.AbstractClassifierTest;
 import weka.classifiers.Classifier;
+import weka.classifiers.meta.RRCEns.RRCWrapperTest;
 
-public class RRCWrapperStaticEnsP1Test extends AbstractClassifierTest {
+
+public class RRCWrapperStaticEnsP1Test extends RRCWrapperTest {
 
 	public RRCWrapperStaticEnsP1Test(String name) {
 		super(name);

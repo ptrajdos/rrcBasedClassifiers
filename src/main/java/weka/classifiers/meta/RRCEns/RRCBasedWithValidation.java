@@ -131,7 +131,7 @@ public abstract class RRCBasedWithValidation extends RRCWrapper {
 		 newVector.addElement(new Option(
 			      "\tIndicates whether the crossvalidation approach is used"+
 		          "(default:" + false  + ").\n",
-			      "CV", 1, "-CV"));
+			      "CV", 0, "-CV"));
 		 
 		 newVector.addElement(new Option(
 			      "\t Split Factor"+
@@ -149,6 +149,11 @@ public abstract class RRCBasedWithValidation extends RRCWrapper {
 		          "(default: weka.classifiers.meta.RRC.neighbourhood.DummyNeighbourhood ).\n",
 			      "NC", 1, "-NC"));
 		 
+		 newVector.addElement(new Option(
+			      "\tIndicates whether keep the old validation instances"+
+		          "(default:" + false  + ").\n",
+			      "KOV", 0, "-KOV"));
+		 
 		 
 		 
 		 newVector.addAll(Collections.list(super.listOptions()));
@@ -163,27 +168,15 @@ public abstract class RRCBasedWithValidation extends RRCWrapper {
 	public void setOptions(String[] options) throws Exception {
 		super.setOptions(options);
 		
-		String crossvalidateString = Utils.getOption("CV", options);
-		if(crossvalidateString.length() !=0) {
-			this.crossvalidate = Integer.parseInt(crossvalidateString)>0?true:false;
-		}else {
-			this.crossvalidate = false;
-		}
+		this.setCrossvalidate(Utils.getFlag("CV", options));
 		
-		String splitFactorString = Utils.getOption("SF", options);
-		if(splitFactorString.length()!=0) {
-			this.splitFactor = Double.parseDouble(splitFactorString);
-		}else {
-			this.splitFactor=0.6;
-		}
+		this.setSplitFactor(UtilsPT.parseDoubleOption(options, "SF", 0.6));
+	
+		this.setkFolds(UtilsPT.parseIntegerOption(options, "KF", 2));
 		
-		String kFoldsString  = Utils.getOption("KF", options);
-		if(kFoldsString.length() !=0) {
-			this.kFolds = Integer.parseInt(kFoldsString);
-		}else {
-			this.kFolds=2;
-		}
 		this.setNeighCalc((NeighbourhoodCalculator) UtilsPT.parseObjectOptions(options, "NC", new DummyNeighbourhood(), NeighbourhoodCalculator.class));
+		
+		this.setKeepOldValidationInstances(Utils.getFlag("KOV", options));
 	}
 
 	/* (non-Javadoc)
@@ -194,18 +187,21 @@ public abstract class RRCBasedWithValidation extends RRCWrapper {
 		
 		Vector<String> options = new Vector<String>();
 	    
-
-	    options.add("-CV");
-	    options.add(""+(this.crossvalidate?1:0));
+		if(this.isCrossvalidate())
+			options.add("-CV");
+	    
 	    
 	    options.add("-SF");
-	    options.add(""+this.splitFactor);
+	    options.add(""+this.getSplitFactor());
 	    
 	    options.add("-KF");
-	    options.add(""+this.kFolds);
+	    options.add(""+this.getkFolds());
 	    
 	    options.add("-NC");
-	    options.add(UtilsPT.getClassAndOptions(neighCalc));
+	    options.add(UtilsPT.getClassAndOptions(this.getNeighCalc()));
+	    
+	    if(this.isKeepOldValidationInstances())
+	    	options.add("-KOV");
 	    
 	    
 	    Collections.addAll(options, super.getOptions());

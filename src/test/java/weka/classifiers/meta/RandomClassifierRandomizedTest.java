@@ -7,7 +7,7 @@ import org.junit.Test;
 import weka.classifiers.AbstractClassifierTest;
 import weka.classifiers.Classifier;
 
-public class RandomClassifierRandomizedTest extends AbstractClassifierTest {
+public class RandomClassifierRandomizedTest extends RandomClassifierTest {
 
 	public RandomClassifierRandomizedTest(String name) {
 		super(name);

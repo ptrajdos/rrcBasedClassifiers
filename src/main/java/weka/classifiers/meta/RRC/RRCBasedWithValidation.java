@@ -77,7 +77,11 @@ public abstract class RRCBasedWithValidation extends RRCWrapper {
 	 */
 	protected double decayFactor=1E-3;
 	
-	protected List<Double> instanceDecayWeights; 
+	protected List<Double> instanceDecayWeights;
+	
+	protected boolean updateValidationSet=true;
+	
+	protected int zeroedCounter;
 	
 
 	/**
@@ -85,6 +89,7 @@ public abstract class RRCBasedWithValidation extends RRCWrapper {
 	 */
 	public RRCBasedWithValidation() {
 		this(new J48());
+		this.zeroedCounter =0;
 	}
 
 	/**
@@ -166,7 +171,7 @@ public abstract class RRCBasedWithValidation extends RRCWrapper {
 		 newVector.addElement(new Option(
 			      "\tIndicates whether the crossvalidation approach is used"+
 		          "(default:" + false  + ").\n",
-			      "CV", 1, "-CV"));
+			      "CV", 0, "-CV"));
 		 
 		 newVector.addElement(new Option(
 			      "\t Split Factor"+
@@ -194,6 +199,11 @@ public abstract class RRCBasedWithValidation extends RRCWrapper {
 		          "(default: 1E-3 ).\n",
 			      "DF", 1, "-DF"));
 		 
+		 newVector.addElement(new Option(
+			      "\t Determines whether the validation set should be updated"+
+		          "(default: true ).\n",
+			      "UVS", 0, "-UVS"));
+		 
 		 
 		 
 		 newVector.addAll(Collections.list(super.listOptions()));
@@ -208,7 +218,8 @@ public abstract class RRCBasedWithValidation extends RRCWrapper {
 	public void setOptions(String[] options) throws Exception {
 		super.setOptions(options);
 		
-		this.setCrossvalidate(UtilsPT.parseIntegerOption(options, "CV", 0)==0? false:true);
+		this.setCrossvalidate(Utils.getFlag("CV", options));
+
 		
 		this.setSplitFactor(UtilsPT.parseDoubleOption(options, "SF", 0.6));
 		
@@ -220,6 +231,12 @@ public abstract class RRCBasedWithValidation extends RRCWrapper {
 		this.setKeepOldValidationInstances(Utils.getFlag("KI", options));
 		
 		this.setDecayFactor(UtilsPT.parseDoubleOption(options, "DF", 1E-3));
+		
+		this.setUpdateValidationSet(Utils.getFlag("UVS", options));
+		
+		
+		
+		
 	}
 
 	/* (non-Javadoc)
@@ -231,23 +248,27 @@ public abstract class RRCBasedWithValidation extends RRCWrapper {
 		Vector<String> options = new Vector<String>();
 	    
 
-	    options.add("-CV");
-	    options.add(""+(this.crossvalidate?1:0));
+		if(this.isCrossvalidate())
+			options.add("-CV");
+	    
 	    
 	    options.add("-SF");
-	    options.add(""+this.splitFactor);
+	    options.add(""+this.getSplitFactor());
 	    
 	    options.add("-KF");
-	    options.add(""+this.kFolds);
+	    options.add(""+this.getkFolds());
 	    
 	    options.add("-NC");
-	    options.add(UtilsPT.getClassAndOptions(neighCalc));
+	    options.add(UtilsPT.getClassAndOptions(this.getNeighCalc()));
 	    
-	    if(this.keepOldValidationInstances)
-	    	options.add("KI");
+	    if(this.isKeepOldValidationInstances())
+	    	options.add("-KI");
 	    
 	    options.add("-DF");
-	    options.add(""+this.decayFactor);
+	    options.add(""+this.getDecayFactor());
+	    
+	    if(this.isUpdateValidationSet())
+	    	options.add("-UVS");
 	    
 	    
 	    Collections.addAll(options, super.getOptions());
@@ -379,16 +400,20 @@ public abstract class RRCBasedWithValidation extends RRCWrapper {
 	
 	
 	protected void updateValidationSet(Instance instance) throws Exception {
+		if(!this.updateValidationSet)
+			return;
 	
 		//Remove the oldest instance from the set
 		if(!this.keepOldValidationInstances) {
+			//Seems to be alright -- if weights are zeroed, the results were the same
 			this.validationSet.remove(0);
 			this.validationResponses.remove(0);
+			this.instanceDecayWeights.remove(0);
 		}
 		reweightValidationInstances();
 		
 		//Add new validation instance
-		this.validationSet.add(instance);
+		this.validationSet.add(instance.copy(instance.toDoubleArray()));
 		this.validationResponses.add(this.rrcCalc.calculateRRC(this.m_Classifier.distributionForInstance(instance)));
 		this.instanceDecayWeights.add(1.0);
 	 
@@ -412,7 +437,24 @@ public abstract class RRCBasedWithValidation extends RRCWrapper {
 		}
 		this.instanceDecayWeights = newWeights;
 	}
+
+	/**
+	 * @return the updateValidationSet
+	 */
+	public boolean isUpdateValidationSet() {
+		return this.updateValidationSet;
+	}
+
+	/**
+	 * @param updateValidationSet the updateValidationSet to set
+	 */
+	public void setUpdateValidationSet(boolean updateValidationSet) {
+		this.updateValidationSet = updateValidationSet;
+	}
 	
+	public String updateValidationSetTipText() {
+		return "Determines whether the validation set should be updated.";
+	}
 	
 
 }
