@@ -1,4 +1,8 @@
 # rrcBasedClassifiers
+
+[![Build Status](https://travis-ci.com/ptrajdos/rrcBasedClassifiers.svg?branch=master)](https://travis-ci.com/ptrajdos/rrcBasedClassifiers) [![Coverage Status](https://coveralls.io/repos/github/ptrajdos/rrcBasedClassifiers/badge.svg?branch=master)](https://coveralls.io/github/ptrajdos/rrcBasedClassifiers?branch=master) 
+
+
 The package impements classifiers based on the concept of the Randomized Reference Classifier. 
 The original idea was described in:
 
