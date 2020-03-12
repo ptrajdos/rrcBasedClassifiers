@@ -27,7 +27,7 @@ import weka.tools.data.InstancesOperator;
  * The classifier uses validation and training sets generated using crossvalidation.
  * @author pawel trajdos
  * @since 0.1.0
- * @version 2.0.0
+ * @version 1.0.0
  *
  */
 public abstract class RRCBasedWithValidation extends RRCWrapper {
