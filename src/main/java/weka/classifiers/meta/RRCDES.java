@@ -3,7 +3,6 @@
  */
 package weka.classifiers.meta;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Vector;
@@ -94,7 +93,7 @@ public class RRCDES extends MultipleClassifiersCombinerWithValidationSet {
 		for(int i=0;i<probs.length;i++) {
 			if(probs[i]<thresh)
 				resultProbs[i]=0;
-			else {
+			else {//TODO change it to make it NaN proof
 				resultProbs[i] = probs[i];
 				oneAbove = true;
 			}

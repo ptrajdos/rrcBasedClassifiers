@@ -4,6 +4,7 @@
 package weka.classifiers.meta.RRC.calculators;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Vector;
@@ -12,6 +13,7 @@ import cern.jet.stat.Gamma;
 import weka.classifiers.meta.RRC.tools.KumaraswamyCDFCalFast;
 import weka.core.Option;
 import weka.core.Utils;
+import weka.core.UtilsPT;
 import weka.tools.Linspace;
 
 /**
@@ -116,7 +118,18 @@ public class RRCCalcKumaraswamy extends RRCCalcAbstract implements RRCCalc, Seri
 				integrationRes+=pdfs[i]*cdfs[i];
 				integrationRes2+= (cdfs[i+1] - cdfs[i])*ppdfs[i];
 			}
-		
+			
+			double gSum = integrationRes + integrationRes2;
+			if(Double.isNaN(gSum) | Double.isInfinite(gSum)) {
+				rrcProbs[pro] = oneProbs[pro];
+				continue;
+			}
+			
+			if(Utils.eq(gSum, 0)) {
+				rrcProbs[pro] = UtilsPT.softMax(new double[] {integrationRes, integrationRes2})[0];
+				continue;
+			}
+			
 			rrcProbs[pro]=integrationRes/(integrationRes + integrationRes2);
 			
 		}
@@ -306,9 +319,12 @@ public class RRCCalcKumaraswamy extends RRCCalcAbstract implements RRCCalc, Seri
 				for(int i=0;i<finalPredictions.length;i++){
 					finPredSum+=finalPredictions[i];
 				}
+				
+				
 				if(! Utils.eq(0, finPredSum)){
-					for(int i=0;i<finalPredictions.length;i++)
-						finalPredictions[i]/=finPredSum;
+					Utils.normalize(finalPredictions, finPredSum);
+				}else {
+					finalPredictions = UtilsPT.softMax(finalPredictions);
 				}
 				
 				return finalPredictions;
@@ -344,15 +360,21 @@ public class RRCCalcKumaraswamy extends RRCCalcAbstract implements RRCCalc, Seri
 				predSum+=finalPredictions[cla];
 				cumSum+=integrationSum;
 			}
-			for(int i=0;i<finalPredictions.length;i++){
-				if(!Utils.eq(0, predSum))
-					finalPredictions[i]/=predSum;
+			
+			
+			if(Double.isNaN(predSum)| Double.isInfinite(predSum)) {
+				return Arrays.copyOf(predictions, predictions.length);
 			}
 			
+			if(!Utils.eq(predSum,0)) {
+				Utils.normalize(finalPredictions, predSum);
+			}else {
+				finalPredictions = UtilsPT.softMax(finalPredictions);
+			}
 
-
-return finalPredictions;
-	}
+			return finalPredictions;
+			
+}
 	
 	/**
 	 * @return the fastComp

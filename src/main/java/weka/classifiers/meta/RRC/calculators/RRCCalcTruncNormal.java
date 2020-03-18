@@ -3,9 +3,10 @@
  */
 package weka.classifiers.meta.RRC.calculators;
 
-import java.io.Serializable;
+import java.util.Arrays;
 
 import weka.core.Utils;
+import weka.core.UtilsPT;
 import weka.tools.Linspace;
 
 /**
@@ -16,21 +17,16 @@ import weka.tools.Linspace;
  * @version 0.1.1
  *
  */
-public class RRCCalcTruncNormal implements RRCCalc, Serializable{
+public class RRCCalcTruncNormal extends RRCCalcAbstract{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 3249080836097724381L;
-
-	
-	public static final int intLen = 51;
-	
-	protected int integrLen  = RRCCalcTruncNormal.intLen;
-	
-	public static final double EPS=1E-6;
 	
 	protected double sdPower=0.5;
+	
+	
 	
 
 	/* (non-Javadoc)
@@ -44,7 +40,9 @@ public class RRCCalcTruncNormal implements RRCCalc, Serializable{
 		if(1-oneProb<EPS) {
 			return 1;
 		}
-		double sd = Math.pow(((oneProb*(1-oneProb))/(3.0)),this.sdPower);
+		double sd = Math.pow(( 1.0/(3.0)),this.sdPower);
+		double eps =1E-3;
+		sd = sd<eps? eps:sd;
 		
 		
 		TruncatedNormal t1 = new TruncatedNormal(oneProb, sd, 0, 1);
@@ -64,6 +62,20 @@ public class RRCCalcTruncNormal implements RRCCalc, Serializable{
 		}
 		sum+=(pdfs[0]*cdfs[0] + pdfs[integrSeq.length-1]*cdfs[integrSeq.length-1])/2;
 		sum2+=(pdfs2[0]*cdfs2[0] + pdfs2[integrSeq.length-1]*cdfs2[integrSeq.length-1])/2; 
+		
+		double gSum = sum+sum2;
+		
+		if(Double.isNaN(gSum)) {
+			return oneProb;
+		}
+		
+		if(Utils.eq(gSum, 0)) {
+			double[] tmp= {sum,sum2};
+			double[] res = UtilsPT.softMax(tmp);
+			return res[0];
+		}
+		
+			
 		
 		double val = sum/(sum+sum2);
 		
@@ -88,7 +100,9 @@ public class RRCCalcTruncNormal implements RRCCalc, Serializable{
 				results[i]=1;
 				continue;
 			}
-			double sd = Math.pow(((oneProb*(1-oneProb))/(3.0)),this.sdPower);
+			double sd = Math.pow( ( 1.0/(3.0)),this.sdPower);
+			double eps =1E-3;
+			sd = sd<eps? eps:sd;
 			
 			TruncatedNormal t1 = new TruncatedNormal(oneProb, sd, 0, 1);
 			TruncatedNormal t2 = new TruncatedNormal(1-oneProb, sd, 0, 1);
@@ -106,6 +120,18 @@ public class RRCCalcTruncNormal implements RRCCalc, Serializable{
 			}
 			sum+=(pdfs[0]*cdfs[0] + pdfs[integrSeq.length-1]*cdfs[integrSeq.length-1])/2;
 			sum2+=(pdfs2[0]*cdfs2[0] + pdfs2[integrSeq.length-1]*cdfs2[integrSeq.length-1])/2; 
+			
+			double gSum = sum+sum2;
+			if(Double.isNaN(gSum)) {
+				results[i]=oneProbs[i];
+				continue;
+			}
+			
+			if(Utils.eq(gSum, 0)) {
+				results[i] = UtilsPT.softMax(new double[]{sum,sum2})[0];
+				continue;
+			}
+			
 			results[i]=sum/(sum+sum2);
 		}
 		
@@ -138,11 +164,11 @@ public class RRCCalcTruncNormal implements RRCCalc, Serializable{
 		TruncatedNormal[] tNormObjs= new TruncatedNormal[nClass];
 		double correctedPrediction=0.0;
 		boolean breakInstanceComputation=false;
-		final double eps = EPS;
+		
 		int oneIdx =0;
 			for(int cl=0;cl<nClass;cl++){
 				correctedPrediction = predictions[cl];
-				if(1.0-correctedPrediction<eps){
+				if(1.0-correctedPrediction<EPS){
 					finalPredictions[cl]=1.0;
 					breakInstanceComputation = true;
 					oneIdx=cl;
@@ -151,7 +177,9 @@ public class RRCCalcTruncNormal implements RRCCalc, Serializable{
 				}
 				
 				
-				sd = Math.pow( (correctedPrediction*(1-correctedPrediction)/(nClass+1)),this.sdPower);
+				sd = Math.pow( (1.0 /(nClass+1)),this.sdPower);
+				double eps =1E-3;
+				sd = sd<eps? eps:sd;
 				
 				
 				tNormObjs[cl] = new TruncatedNormal(correctedPrediction, sd, 0, 1);
@@ -194,14 +222,19 @@ public class RRCCalcTruncNormal implements RRCCalc, Serializable{
 				predSum+=finalPredictions[cla];
 				
 			}
+			
+			if(Double.isNaN(predSum) | Double.isInfinite(predSum)) {
+				return predictions;
+			}
 			if(!Utils.eq(0, predSum))
 				for(int i=0;i<finalPredictions.length;i++){
 						finalPredictions[i]/=predSum;
 				}
-			
+			else
+				finalPredictions = UtilsPT.softMax(finalPredictions);
 
 
-return finalPredictions;
+			return finalPredictions;
 	}
 
 	/**

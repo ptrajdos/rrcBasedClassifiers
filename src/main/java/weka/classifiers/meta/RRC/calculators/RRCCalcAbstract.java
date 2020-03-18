@@ -26,7 +26,7 @@ public abstract class RRCCalcAbstract implements RRCCalc, Serializable, OptionHa
 	
 	protected int integrLen  = 51;
 	
-	public static final double EPS=1E-6;
+	public static final double EPS=1E-4;
 
 	/**
 	 * @return the integrLen

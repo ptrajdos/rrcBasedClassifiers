@@ -10,6 +10,7 @@ import weka.classifiers.trees.J48;
 import weka.core.Instances;
 import weka.core.Utils;
 import weka.tools.data.RandomDataGenerator;
+import weka.tools.tests.RandomDataChecker;
 
 public class RRCDESTest extends MultipleClassifiersCombinerWithValidationSetTest {
 
@@ -51,6 +52,12 @@ public class RRCDESTest extends MultipleClassifiersCombinerWithValidationSetTest
 	}
 	 
  }	
+ 
+ public void testAgainstRandomData() {
+	 RRCDES des = (RRCDES) this.getClassifier();
+	 assertTrue("Total Random data", RandomDataChecker.checkAgainstRandomData(des, -0.1, 0.1));
+	 assertTrue("Test, Well-separated data", RandomDataChecker.checkAgainstWellSeparatedData(des, 0.9));
+ }
 
 	
 
