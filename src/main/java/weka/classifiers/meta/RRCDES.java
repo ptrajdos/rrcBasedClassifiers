@@ -11,11 +11,13 @@ import weka.classifiers.meta.RRC.neighbourhood.DummyNeighbourhood;
 import weka.classifiers.meta.RRC.neighbourhood.NeighbourhoodCalculator;
 import weka.classifiers.meta.generalOutputCombiners.MeanCombiner;
 import weka.classifiers.meta.generalOutputCombiners.OutputCombiner;
+import weka.core.Capabilities;
 import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.Option;
 import weka.core.Utils;
 import weka.core.UtilsPT;
+import weka.core.Capabilities.Capability;
 
 /**
  * DES system using RRC classifier
@@ -71,6 +73,7 @@ public class RRCDES extends MultipleClassifiersCombinerWithValidationSet {
 	public double[] distributionForInstance(Instance instance) throws Exception {
 		
 		double[] combinedProbs = new double[this.m_Classifiers.length];
+		double[] neighCoeffsSum = new double[this.m_Classifiers.length];
 		
 		double[] neighCoeffs = this.neighCalc.getNeighbourhoodCoeffs(this.validationSet, instance);
 		
@@ -79,7 +82,10 @@ public class RRCDES extends MultipleClassifiersCombinerWithValidationSet {
 		for(int c=0;c<this.m_Classifiers.length;c++) {
 			for(int i=0;i<numInstances;i++) {
 				combinedProbs[c]+= neighCoeffs[i]*this.correctClassificationProbs[i][c];
+				neighCoeffsSum[c] += neighCoeffs[i];
 			}
+			if(Utils.gr(neighCoeffsSum[c], 0))
+				combinedProbs[c]/=neighCoeffsSum[c];
 		}
 		
 		double[] weights = this.probsThreshold(combinedProbs);
@@ -195,7 +201,12 @@ public class RRCDES extends MultipleClassifiersCombinerWithValidationSet {
 		return "DES classifier built using RRC approach";
 	}
 
-
+	@Override
+	public Capabilities getCapabilities() {
+		Capabilities baseCaps = super.getCapabilities();
+		baseCaps.disable(Capability.MISSING_VALUES);
+		return baseCaps; 
+	}
 
 }
 

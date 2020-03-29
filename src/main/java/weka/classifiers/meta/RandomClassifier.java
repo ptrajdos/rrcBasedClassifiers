@@ -137,6 +137,12 @@ public abstract class RandomClassifier extends RandomizableSingleClassifierEnhan
 	    
 	    return options.toArray(new String[0]);
 	}
+
+	@Override
+	public void setSeed(int seed) {
+		super.setSeed(seed);
+		this.random.setSeed(seed);
+	}
 	
 
 }

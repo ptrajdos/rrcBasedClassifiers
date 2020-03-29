@@ -9,7 +9,9 @@ import weka.core.Instance;
 import weka.core.Instances;
 
 /**
- * @author pawel
+ * @author pawel trajdos
+ * @since 1.0.0
+ * @version 1.0.0
  *
  */
 public class RandomClassifierFull extends RandomClassifier {
@@ -46,8 +48,7 @@ public class RandomClassifierFull extends RandomClassifier {
 		if(!isRandomizeResponse()) 
 			return this.m_Classifier.distributionForInstance(instance);
 		
-		Random rnd = new Random(this.m_Seed);
-		int selectedClass = rnd.nextInt(this.numClasses);
+		int selectedClass = this.random.nextInt(this.numClasses);
 		double[] response = new double[this.numClasses];
 		response[selectedClass]=1.0;
 		return response;
