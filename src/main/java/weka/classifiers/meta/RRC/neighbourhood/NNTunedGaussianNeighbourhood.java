@@ -56,7 +56,7 @@ public class NNTunedGaussianNeighbourhood extends DistanceBasedNeighbourhood {
 				return 0;
 			}
 		});
-		double cutoff = coefList.get(this.neighbours).getValue();
+		double cutoff = coefList.get(this.neighbours-1).getValue();
 		double alpha = -Math.log(this.threshold)/(cutoff*cutoff);
 		
 		double[] newWeights = new double[coeffs.length];

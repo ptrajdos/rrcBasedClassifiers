@@ -61,14 +61,17 @@ public abstract class NeighbourhoodCalculatorTest extends TestCase {
 		RandomDataGenerator gen = new RandomDataGenerator();
 		gen.setNumNominalAttributes(0);
 		
-		Instances data = gen.generateData();
+		
 		int numReps =20;
-		int numInstances = data.numInstances();
+		
 		Random rnd = new Random(0);
 		NeighbourhoodCalculator calc = this.getNeighbourhoodCalculator();
-		
+		int[] possibleSetSizes= {100,101,111};
 		try {
 		for(int i=0;i<numReps;i++) {
+			gen.setNumObjects(possibleSetSizes[i%possibleSetSizes.length]);
+			Instances data = gen.generateData();
+			int numInstances = data.numInstances();
 			Instance testInstance = data.get(rnd.nextInt(numInstances));
 			double[] neighs = calc.getNeighbourhoodCoeffs(data, testInstance);
 			assertTrue("Neigh Coeffs check", this.checkCoeffs(neighs));

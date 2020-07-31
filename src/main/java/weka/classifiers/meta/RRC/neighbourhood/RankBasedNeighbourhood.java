@@ -14,7 +14,6 @@ import java.util.Vector;
 import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.Option;
-import weka.core.Utils;
 import weka.core.UtilsPT;
 
 /**
@@ -28,9 +27,9 @@ import weka.core.UtilsPT;
  * @version 1.0.0
  *
  */
-public class NearestNeighbourNeighbourhood extends DistanceBasedNeighbourhood {
+public class RankBasedNeighbourhood extends DistanceBasedNeighbourhood {
 	
-	protected int neighbours=3;
+	
 
 	/**
 	 * 
@@ -58,68 +57,17 @@ public class NearestNeighbourNeighbourhood extends DistanceBasedNeighbourhood {
 			}
 		});
 		double[] newCoeffs  =new double[coeffs.length];
-		for(int i=0;i<this.neighbours;i++) {
+		for(int i=0;i<newCoeffs.length;i++) {
 			newCoeffs[coefList.get(i).getKey()]=this.calculateWeight(coeffs[coefList.get(i).getKey()]);
 		}
 		
 		return newCoeffs;
 	}
 
-	/**
-	 * @return the neighbours
-	 */
-	public int getNeighbours() {
-		return this.neighbours;
-	}
-
-	/**
-	 * @param neighbours the neighbours to set
-	 */
-	public void setNeighbours(int neighbours) {
-		this.neighbours = neighbours;
-	}
 	
-	public String neighboursTipText() {
-		return "Number of the nearest neighbours to use";
-	}
-	
-	@Override
-	public Enumeration<Option> listOptions() {
-		Vector<Option> newVector = new Vector<Option>(1);
-		
-		 newVector.addElement(new Option(
-			      "\t The numer of nearest neighbours to be used"+
-		          "(default:" + 3.0  + ").\n",
-			      "NN", 1, "-NN"));
-			 
-		 newVector.addAll(Collections.list(super.listOptions()));
-		    
-		return newVector.elements();
-	}
-
-	@Override
-	public void setOptions(String[] options) throws Exception {
-		super.setOptions(options);
-		
-		this.setNeighbours(UtilsPT.parseIntegerOption(options, "NN", 3));
-		
-		
-	}
-
-	@Override
-	public String[] getOptions() {
-		Vector<String> options = new Vector<String>();
-
-	    options.add("-NN");
-	    options.add(""+this.getNeighbours());
-	    
-	    Collections.addAll(options, super.getOptions());
-	    
-	    return options.toArray(new String[0]);
-	}
 	
 	protected double calculateWeight(double distance) {
-		return 1.0;
+		return 1.0/(distance+1.0);
 	}
 	
 
