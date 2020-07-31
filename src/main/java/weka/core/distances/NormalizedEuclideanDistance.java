@@ -30,7 +30,7 @@ public class NormalizedEuclideanDistance extends EuclideanDistance {
 	}
 
 	/**
-	 * @param data
+	 * @param data -- dataset to be used
 	 */
 	public NormalizedEuclideanDistance(Instances data) {
 		super(data);
