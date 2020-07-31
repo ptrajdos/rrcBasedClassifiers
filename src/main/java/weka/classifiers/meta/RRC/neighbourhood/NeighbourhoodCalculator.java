@@ -21,7 +21,7 @@ public interface NeighbourhoodCalculator {
 	 * @param dataset -- neighbouring points
 	 * @param instance -- the center of the neighbourhood
 	 * @return an array of the neighbourhood coefficients in [0,1]
-	 * @throws Exception
+	 * @throws Exception -- an exception
 	 */
 	public double[] getNeighbourhoodCoeffs(Instances dataset, Instance instance)throws Exception;
 

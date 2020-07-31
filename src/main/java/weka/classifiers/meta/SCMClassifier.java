@@ -37,7 +37,7 @@ public class SCMClassifier extends RRCBasedWithValidation implements GlobalInfoH
 	}
 
 	/**
-	 * @param baseClassifier
+	 * @param baseClassifier -- base classifier to use
 	 */
 	public SCMClassifier(Classifier baseClassifier) {
 		super(baseClassifier);
@@ -112,7 +112,7 @@ public class SCMClassifier extends RRCBasedWithValidation implements GlobalInfoH
 	}
 
 	/**
-	 * @param args
+	 * @param args -- arguments
 	 */
 	public static void main(String[] args) {
 		runClassifier(new SCMClassifier(), args);

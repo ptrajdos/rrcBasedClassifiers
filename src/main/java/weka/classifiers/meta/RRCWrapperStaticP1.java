@@ -31,7 +31,7 @@ public class RRCWrapperStaticP1 extends RRCWrapper implements GlobalInfoHandler 
 	
 	
 	/**
-	 * @param baseClassifier
+	 * @param baseClassifier -- base classifier to use
 	 */
 	public RRCWrapperStaticP1(Classifier baseClassifier) {
 		super(baseClassifier);
@@ -51,7 +51,7 @@ public class RRCWrapperStaticP1 extends RRCWrapper implements GlobalInfoHandler 
 
 
 	/**
-	 * @param args
+	 * @param args arguments
 	 */
 	public static void main(String[] args) {
 		runClassifier(new RRCWrapperStaticP1(), args);

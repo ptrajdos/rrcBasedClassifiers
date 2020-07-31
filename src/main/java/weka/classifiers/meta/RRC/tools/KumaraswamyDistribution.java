@@ -29,7 +29,9 @@ public class KumaraswamyDistribution extends AbstractRealDistribution  {
 	
 
 	/**
-	 * @param rng
+	 * @param rng -- random generator to use
+	 * @param alpha -- distribution parameter
+	 * @param beta -- distribution parameter
 	 */
 	public KumaraswamyDistribution(RandomGenerator rng,double alpha, double beta) {
 		super(rng);

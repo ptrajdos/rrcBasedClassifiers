@@ -34,7 +34,7 @@ public class RRCWrapperStaticEnsP1 extends RRCWrapper implements GlobalInfoHandl
 
 
 	/**
-	 * @param args
+	 * @param args arguments
 	 */
 	public static void main(String[] args) {
 		runClassifier(new RRCWrapperStaticEnsP1(), args);

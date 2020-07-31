@@ -12,10 +12,12 @@ package weka.classifiers.meta.RRC.tools;
  */
 public class BetaReverser {
 
+	
 	/**
 	 * 
+	 * @param cdfs -- array of cdfs to be reversed
+	 * @return reversed cdfss
 	 */
-	
 	public static double[] reverseBetaCdf(double[] cdfs){
 		double[] reversed = new double[cdfs.length];
 		

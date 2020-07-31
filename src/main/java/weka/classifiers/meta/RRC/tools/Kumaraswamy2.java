@@ -15,8 +15,8 @@ import net.sourceforge.jdistlib.Kumaraswamy;
 public class Kumaraswamy2 extends Kumaraswamy {
 
 	/**
-	 * @param a
-	 * @param b
+	 * @param a -- a parameter of distribution
+	 * @param b -- b parameter of distribution
 	 */
 	public Kumaraswamy2(double a, double b) {
 		super(a, b);

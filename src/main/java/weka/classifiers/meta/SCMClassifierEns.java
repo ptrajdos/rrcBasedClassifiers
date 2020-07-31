@@ -93,7 +93,7 @@ public class SCMClassifierEns extends RRCBasedWithValidation implements GlobalIn
 	}
 	
 	/**
-	 * @param args
+	 * @param args -- arguments
 	 */
 	public static void main(String[] args) {
 		runClassifier(new SCMClassifierEns(), args);

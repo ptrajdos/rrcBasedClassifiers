@@ -17,6 +17,7 @@ public interface RRCCalcEns {
 	 * @version 1.0.0
 	 * @param ensemblePrediction -- prediction of the ensmeble [classifier number] x [class supports]
 	 * @return -- array of class-specific winning probability
+	 * @throws -- an exception
 	 */
 	public double[] calculateRRC(double[][] ensemblePrediction)throws Exception;
 

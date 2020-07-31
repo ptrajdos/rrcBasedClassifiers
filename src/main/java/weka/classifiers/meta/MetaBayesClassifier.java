@@ -35,7 +35,7 @@ public class MetaBayesClassifier extends RRCBasedWithValidation implements Globa
 	}
 
 	/**
-	 * @param baseClassifier
+	 * @param baseClassifier -- base classifier to use
 	 */
 	public MetaBayesClassifier(Classifier baseClassifier) {
 		super(baseClassifier);
@@ -103,7 +103,7 @@ public class MetaBayesClassifier extends RRCBasedWithValidation implements Globa
 	
 
 	/**
-	 * @param args
+	 * @param args arguments
 	 */
 	public static void main(String[] args) {
 		runClassifier(new MetaBayesClassifier(), args);

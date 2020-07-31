@@ -14,7 +14,7 @@ import java.io.Serializable;
  */
 public class KumaraswamyCDFCalFast implements MultiCumulativeCalc, Serializable {
 
-	/**
+	/*
 	 * 
 	 */
 	private static final long serialVersionUID = 8963830272020664013L;
@@ -25,6 +25,8 @@ public class KumaraswamyCDFCalFast implements MultiCumulativeCalc, Serializable 
 
 	/**
 	 * 
+	 * @param alpha -- parameter
+	 * @param beta -- parameter
 	 */
 	public KumaraswamyCDFCalFast(double alpha, double beta) {
 		this.alpha = alpha;

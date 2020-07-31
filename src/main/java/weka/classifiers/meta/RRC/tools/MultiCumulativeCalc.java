@@ -15,7 +15,7 @@ public interface MultiCumulativeCalc {
 	/**
 	 * Returns cumulative values for given values
 	 * @param x -- values
-	 * @return
+	 * @return cummulative
 	 */
 	public double[] cumulative(double[] x);
 	

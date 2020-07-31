@@ -94,7 +94,7 @@ public abstract class RRCBasedWithValidation extends RRCWrapper {
 
 	/**
 	 * Constructs the object using given base classifer.
-	 * @param baseClassifier
+	 * @param baseClassifier -- base classifier to use
 	 */
 	public RRCBasedWithValidation(Classifier baseClassifier) {
 		super(baseClassifier);
@@ -285,7 +285,7 @@ public abstract class RRCBasedWithValidation extends RRCWrapper {
 		return "The object to calculate the neighbourhood coefficients";
 	}
 	/**
-	 * @return the neighCalc
+	 * @return the neighCalc 
 	 */
 	public NeighbourhoodCalculator getNeighCalc() {
 		return this.neighCalc;

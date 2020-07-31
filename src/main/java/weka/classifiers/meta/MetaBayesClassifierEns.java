@@ -87,7 +87,7 @@ public class MetaBayesClassifierEns extends RRCBasedWithValidation implements Gl
 	
 
 	/**
-	 * @param args
+	 * @param args args
 	 */
 	public static void main(String[] args) {
 		runClassifier(new MetaBayesClassifierEns(), args);

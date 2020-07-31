@@ -14,15 +14,15 @@ public interface Distance2NeighbourhoodTransformation {
 	
 	/**
 	 * Calculates the neighbourhood coefficnent for the distance value.
-	 * @param distanceVal
-	 * @return
+	 * @param distanceVal -- value of the distance
+	 * @return transformed value
 	 */
 	public double getNeighbourhood(double distanceVal);
 	
 	/**
 	 * Calculates the neighbourhood coefficnents for the distance values.
-	 * @param distanceVals
-	 * @return
+	 * @param distanceVals -- value of the distance
+	 * @return -- transformed value
 	 */
 	public double[] getNeighbourhood(double[] distanceVals);
 
