@@ -77,7 +77,6 @@ public abstract class RRCBasedWithValidation extends RRCWrapper {
 	 */
 	protected double decayFactor=1E-3;
 	
-	protected List<Double> instanceDecayWeights;
 	
 	protected boolean updateValidationSet=true;
 	
@@ -114,7 +113,7 @@ public abstract class RRCBasedWithValidation extends RRCWrapper {
 		}else {
 			this.buildSplit(arg0);
 		}
-		this.initialiseDecayFactors();
+		
 	}
 	
 	protected void buildSplit(Instances inst) throws Exception {
@@ -408,34 +407,29 @@ public abstract class RRCBasedWithValidation extends RRCWrapper {
 			//Seems to be alright -- if weights are zeroed, the results were the same
 			this.validationSet.remove(0);
 			this.validationResponses.remove(0);
-			this.instanceDecayWeights.remove(0);
 		}
 		reweightValidationInstances();
 		
 		//Add new validation instance
-		this.validationSet.add(instance.copy(instance.toDoubleArray()));
+		Instance tmpInstance = instance.copy(instance.toDoubleArray());
+		this.validationSet.add(tmpInstance);
 		this.validationResponses.add(this.rrcCalc.calculateRRC(this.m_Classifier.distributionForInstance(instance)));
-		this.instanceDecayWeights.add(1.0);
 	 
 	} 
 	
-	protected void initialiseDecayFactors() {
-		this.instanceDecayWeights = new LinkedList<Double>();
-		int valSetSize = this.validationSet.size();
-		for(int i=0;i<valSetSize;i++)
-			this.instanceDecayWeights.add(1.0);
-	}
+	
 	
 	protected void reweightValidationInstances() {
 		List<Double> newWeights = new LinkedList<Double>();
 		int valSetSize = this.validationSet.size();
 		double value;
+		Instance tmpInstance;
+		double tmpWeight;
 		for(int i=0;i<valSetSize;i++) {
-			value = this.instanceDecayWeights.get(i).doubleValue();
-			value*=(1-this.decayFactor);
-			newWeights.add(value);
+			tmpInstance = this.validationSet.get(i);
+			tmpWeight = tmpInstance.weight() * (1-this.decayFactor); 
+			tmpInstance.setWeight(tmpWeight);
 		}
-		this.instanceDecayWeights = newWeights;
 	}
 
 	/**

@@ -1,5 +1,6 @@
 package weka.classifiers.meta.RRC;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import weka.core.Instance;
@@ -98,8 +99,17 @@ public abstract class RRCBasedWithValidationTest extends RRCWrapperTest {
 		
 	}
 	
+	protected List<Double> extractInstanceWeights(RRCBasedWithValidation rrc){
+		int numValInstances = rrc.validationSet.size();
+		List<Double> weightList = new ArrayList<Double>(numValInstances);
+		for(int i=0;i<numValInstances;i++)
+			weightList.add(rrc.validationSet.get(i).weight());
+		
+		return weightList;
+	}
+	
 	protected void weightsChecker(RRCBasedWithValidation rrc) {
-		List<Double> weights = rrc.instanceDecayWeights;
+		List<Double> weights = this.extractInstanceWeights(rrc);
 		int size = weights.size();
 		double endWeight = weights.get(size-1);
 		// last weight should be equall one
