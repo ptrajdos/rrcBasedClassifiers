@@ -58,8 +58,10 @@ public class NearestNeighbourNeighbourhood extends DistanceBasedNeighbourhood {
 			}
 		});
 		double[] newCoeffs  =new double[coeffs.length];
-		for(int i=0;i<this.neighbours;i++) {
-			newCoeffs[coefList.get(i).getKey()]=this.calculateWeight(coeffs[coefList.get(i).getKey()]);
+		int key;
+		for(int i=0;i<this.neighbours & i<coeffs.length;i++) {
+			key = coefList.get(i).getKey();
+			newCoeffs[key]=this.calculateWeight(coeffs[coefList.get(i).getKey()]);
 		}
 		
 		return newCoeffs;

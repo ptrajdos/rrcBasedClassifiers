@@ -43,6 +43,8 @@ public class NNTunedGaussianNeighbourhood extends DistanceBasedNeighbourhood {
 	@Override
 	public double[] getNeighbourhoodCoeffs(Instances dataset, Instance instance) throws Exception {
 		double[] coeffs = this.calculateDistances(dataset, instance);
+		if(this.neighbours > coeffs.length)
+			return new double[0];
 		List<SimpleEntry<Integer, Double>> coefList = new ArrayList<SimpleEntry<Integer, Double>>(coeffs.length);
 		for(int i=0;i<coeffs.length;i++) {
 			coefList.add(new SimpleEntry<Integer, Double>(i, coeffs[i]));
@@ -56,6 +58,7 @@ public class NNTunedGaussianNeighbourhood extends DistanceBasedNeighbourhood {
 				return 0;
 			}
 		});
+		
 		double cutoff = coefList.get(this.neighbours-1).getValue();
 		double alpha = -Math.log(this.threshold)/(cutoff*cutoff);
 		

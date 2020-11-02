@@ -3,7 +3,6 @@
  */
 package weka.classifiers.meta.RRC;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.LinkedList;
@@ -27,7 +26,7 @@ import weka.tools.data.InstancesOperator;
  * The classifier uses validation and training sets generated using crossvalidation.
  * @author pawel trajdos
  * @since 0.1.0
- * @version 1.0.0
+ * @version 1.1.0
  *
  */
 public abstract class RRCBasedWithValidation extends RRCWrapper {
@@ -124,7 +123,7 @@ public abstract class RRCBasedWithValidation extends RRCWrapper {
 		
 		//validate
 		int valInstNum = this.validationSet.numInstances(); 
-		this.validationResponses = new ArrayList<double[]>();
+		this.validationResponses = new LinkedList<double[]>();
 		for(int i=0;i<valInstNum;i++ ) {
 			this.validationResponses.add(this.rrcCalc.calculateRRC(this.m_Classifier.distributionForInstance(this.validationSet.get(i))));			
 		}
@@ -135,12 +134,23 @@ public abstract class RRCBasedWithValidation extends RRCWrapper {
 		this.validationSet = new Instances(inst, 0);
 		Instances tmpSet = new Instances(inst);
 		tmpSet.stratify(this.kFolds);
-		this.validationResponses = new ArrayList<double[]>(inst.numInstances());
+		this.validationResponses = new LinkedList<double[]>();
 		
 		//iteratr over folds
 		Instances train, val;
 		int valInstNum;
 		Instance tmpInstance;
+		
+		int numInstances = inst.numInstances();
+		if(kFolds>numInstances & numInstances>0)
+			kFolds=numInstances;
+		
+		if(numInstances==0) {
+			this.m_Classifier.buildClassifier(inst);
+			return;
+		}
+		
+		
 		for(int f=0;f<this.kFolds;f++) {
 			train = tmpSet.trainCV(this.kFolds, f);
 			val = tmpSet.testCV(this.kFolds, f);
@@ -420,9 +430,7 @@ public abstract class RRCBasedWithValidation extends RRCWrapper {
 	
 	
 	protected void reweightValidationInstances() {
-		List<Double> newWeights = new LinkedList<Double>();
 		int valSetSize = this.validationSet.size();
-		double value;
 		Instance tmpInstance;
 		double tmpWeight;
 		for(int i=0;i<valSetSize;i++) {

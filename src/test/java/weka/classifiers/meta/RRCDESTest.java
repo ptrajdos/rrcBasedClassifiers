@@ -105,7 +105,7 @@ public class RRCDESTest extends MultipleClassifiersCombinerWithValidationSetTest
 	 RRCDES des = (RRCDES) this.getClassifier();
 	 RandomClassifierFull rndClassifier = new RandomClassifierFull();
 	 rndClassifier.setRandomizeResponse(true);
-	 int numClassifiers =11;
+	 int numClassifiers =5;
 	 Classifier[] classifiers = new Classifier[numClassifiers];
 	 try {
 		 for(int i=0;i<numClassifiers;i++) {

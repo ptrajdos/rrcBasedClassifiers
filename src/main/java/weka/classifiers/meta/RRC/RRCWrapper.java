@@ -25,7 +25,7 @@ import weka.tools.GlobalInfoHandler;
 /**
  * @author pawel trajdos
  * @since 0.1.0
- * @version 2.0.0
+ * @version 1.0.0
  *
  */
 public abstract class RRCWrapper extends RandomizableSingleClassifierEnhancer implements UpdateableClassifier,GlobalInfoHandler {

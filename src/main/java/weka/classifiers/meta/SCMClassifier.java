@@ -77,7 +77,7 @@ public class SCMClassifier extends RRCBasedWithValidation implements GlobalInfoH
 		double[] neighCoeffs = this.neighCalc.getNeighbourhoodCoeffs(this.validationSet, instance);
 		
 		for(int i=0;i<neighCoeffs.length;i++)
-			neighCoeffs[i]*=validationSet.get(i).weight();
+			neighCoeffs[i]*=this.validationSet.get(i).weight();
 		
 		int numValInstances = this.validationSet.numInstances();
 		int gtClass=0;

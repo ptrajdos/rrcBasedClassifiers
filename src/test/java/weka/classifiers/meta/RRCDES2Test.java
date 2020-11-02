@@ -18,11 +18,15 @@ public class RRCDES2Test extends RRCDESTest {
 	@Override
 	public Classifier getClassifier() {
 		RRCDES2 des = new RRCDES2();
+		des.setNumFolds(3);
 		Bagging bag = new Bagging();
+		bag.setNumIterations(3);
 		bag.setClassifier(new J48());
 		Bagging bag2 = new Bagging();
+		bag2.setNumIterations(3);
 		bag2.setClassifier(new NaiveBayes());
 		Bagging bag3 = new Bagging();
+		bag3.setNumIterations(3);
 		bag3.setClassifier(new IBk());
 		
 		des.setClassifiers(new Classifier[] { bag,bag2,bag3,new J48(), new NaiveBayes() });
@@ -36,9 +40,12 @@ public class RRCDES2Test extends RRCDESTest {
 	
 	public void testBackupClassifiers() {
 		RRCDES2 des = new RRCDES2();
+		des.setNumFolds(3);
 		Bagging bag = new Bagging();
+		bag.setNumIterations(3);
 		bag.setClassifier(new J48());
 		Bagging bag2 = new Bagging();
+		bag2.setNumIterations(3);
 		bag2.setClassifier(new NaiveBayes());
 		Bagging bag3 = new Bagging();
 		bag3.setClassifier(new IBk());

@@ -99,6 +99,25 @@ public abstract class NeighbourhoodCalculatorTest extends TestCase {
 		goe.setObject(this.getNeighbourhoodCalculator());
 		assertTrue("Call Tip Texts", goe.checkToolTipsCall());
 	}
+	
+	public void testNoInstances() {
+		RandomDataGenerator gen = new RandomDataGenerator();
+		gen.setNumNominalAttributes(0);
+		
+		Instances initData = gen.generateData();
+		Instance testInstance = initData.get(0);
+		
+		Instances emptyInstanceSet = new Instances(initData,0);
+		
+		NeighbourhoodCalculator neiCalc = this.getNeighbourhoodCalculator();
+		
+		try {
+			double[] coeffs = neiCalc.getNeighbourhoodCoeffs(emptyInstanceSet, testInstance);
+			assertTrue("Neigh Coeffs check", this.checkCoeffs(coeffs));
+		} catch (Exception e) {
+			fail("Neighbourhood coefficients checking. An Exception has been caught: " + e.toString());
+		}
+	}
 		
 	
 
