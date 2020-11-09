@@ -17,7 +17,7 @@ import weka.core.UtilsPT;
 /**
  * @author pawel trajdos
  * @since 1.0.0
- * @version 1.0.0
+ * @version 1.1.1
  *
  */
 public class NearestNeighbourNeighbourhoodDynamic implements NeighbourhoodCalculator, Serializable, OptionHandler {
@@ -35,7 +35,7 @@ public class NearestNeighbourNeighbourhoodDynamic implements NeighbourhoodCalcul
 	public double[] getNeighbourhoodCoeffs(Instances dataset, Instance instance) throws Exception {
 		int nn = this.determineNNNumber(dataset, instance);
 		this.nnNeighCalc.setNeighbours(nn);
-		return this.nnNeighCalc.calculateDistances(dataset, instance);
+		return this.nnNeighCalc.getNeighbourhoodCoeffs(dataset, instance);
 	}
 	
 	protected int determineNNNumber(Instances dataset, Instance instance) {
