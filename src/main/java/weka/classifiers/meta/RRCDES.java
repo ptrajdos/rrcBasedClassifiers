@@ -12,12 +12,12 @@ import weka.classifiers.meta.RRC.neighbourhood.NeighbourhoodCalculator;
 import weka.classifiers.meta.generalOutputCombiners.MeanCombiner;
 import weka.classifiers.meta.generalOutputCombiners.OutputCombiner;
 import weka.core.Capabilities;
+import weka.core.Capabilities.Capability;
 import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.Option;
 import weka.core.Utils;
 import weka.core.UtilsPT;
-import weka.core.Capabilities.Capability;
 
 /**
  * DES system using RRC classifier
@@ -174,10 +174,12 @@ public class RRCDES extends MultipleClassifiersCombinerWithValidationSet {
 
 	@Override
 	public void setOptions(String[] options) throws Exception {
-		super.setOptions(options);
+		
 		
 		this.setOutCombiner((OutputCombiner) UtilsPT.parseObjectOptions(options, "OC", new MeanCombiner(), OutputCombiner.class));
 		this.setNeighCalc((NeighbourhoodCalculator) UtilsPT.parseObjectOptions(options, "NC", new DummyNeighbourhood(), NeighbourhoodCalculator.class));
+		
+		super.setOptions(options);
 	}
 
 	@Override

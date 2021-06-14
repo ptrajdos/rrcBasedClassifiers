@@ -3,8 +3,6 @@
  */
 package weka.classifiers.meta.RRC.calculators;
 
-import java.util.Arrays;
-
 import weka.core.Utils;
 import weka.core.UtilsPT;
 import weka.tools.Linspace;

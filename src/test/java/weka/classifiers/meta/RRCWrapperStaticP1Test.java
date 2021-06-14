@@ -2,7 +2,6 @@ package weka.classifiers.meta;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
-import weka.classifiers.AbstractClassifierTest;
 import weka.classifiers.Classifier;
 import weka.classifiers.meta.RRC.RRCWrapperTest;
 

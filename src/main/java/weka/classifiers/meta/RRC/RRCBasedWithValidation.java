@@ -225,7 +225,7 @@ public abstract class RRCBasedWithValidation extends RRCWrapper {
 	 */
 	@Override
 	public void setOptions(String[] options) throws Exception {
-		super.setOptions(options);
+		
 		
 		this.setCrossvalidate(Utils.getFlag("CV", options));
 
@@ -244,7 +244,7 @@ public abstract class RRCBasedWithValidation extends RRCWrapper {
 		this.setUpdateValidationSet(Utils.getFlag("UVS", options));
 		
 		
-		
+		super.setOptions(options);
 		
 	}
 

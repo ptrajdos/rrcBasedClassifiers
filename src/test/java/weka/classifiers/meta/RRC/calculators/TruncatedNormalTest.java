@@ -1,10 +1,8 @@
 package weka.classifiers.meta.RRC.calculators;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-
-import net.sourceforge.jdistlib.generic.GenericDistribution;
 
 public class TruncatedNormalTest {
 

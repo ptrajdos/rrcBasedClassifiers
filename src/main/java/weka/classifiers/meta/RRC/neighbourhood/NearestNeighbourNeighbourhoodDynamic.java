@@ -4,7 +4,6 @@
 package weka.classifiers.meta.RRC.neighbourhood;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Vector;
 

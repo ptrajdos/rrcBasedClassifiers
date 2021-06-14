@@ -111,7 +111,7 @@ public abstract class RandomClassifier extends RandomizableSingleClassifierEnhan
 	 */
 	@Override
 	public void setOptions(String[] options) throws Exception {
-		super.setOptions(options);
+		
 		
 		String randomizeString = Utils.getOption("RA", options);
 		if(randomizeString.length() !=0) {
@@ -119,6 +119,8 @@ public abstract class RandomClassifier extends RandomizableSingleClassifierEnhan
 		}else {
 			this.randomizeResponse=false;
 		}
+		
+		super.setOptions(options);
 	}
 
 	/* (non-Javadoc)

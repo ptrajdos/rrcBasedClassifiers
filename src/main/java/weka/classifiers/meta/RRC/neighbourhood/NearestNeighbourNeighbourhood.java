@@ -14,7 +14,6 @@ import java.util.Vector;
 import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.Option;
-import weka.core.Utils;
 import weka.core.UtilsPT;
 
 /**

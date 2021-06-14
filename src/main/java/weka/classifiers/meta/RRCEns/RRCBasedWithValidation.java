@@ -166,7 +166,7 @@ public abstract class RRCBasedWithValidation extends RRCWrapper {
 	 */
 	@Override
 	public void setOptions(String[] options) throws Exception {
-		super.setOptions(options);
+		
 		
 		this.setCrossvalidate(Utils.getFlag("CV", options));
 		
@@ -177,6 +177,8 @@ public abstract class RRCBasedWithValidation extends RRCWrapper {
 		this.setNeighCalc((NeighbourhoodCalculator) UtilsPT.parseObjectOptions(options, "NC", new DummyNeighbourhood(), NeighbourhoodCalculator.class));
 		
 		this.setKeepOldValidationInstances(Utils.getFlag("KOV", options));
+		
+		super.setOptions(options);
 	}
 
 	/* (non-Javadoc)

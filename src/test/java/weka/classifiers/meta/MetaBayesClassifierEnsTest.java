@@ -4,7 +4,6 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 import weka.classifiers.Classifier;
 import weka.classifiers.meta.RRCEns.RRCBasedWithValidationTest;
-import weka.classifiers.meta.RRCEns.RRCWrapperTest;
 
 public class MetaBayesClassifierEnsTest  extends RRCBasedWithValidationTest{
 
