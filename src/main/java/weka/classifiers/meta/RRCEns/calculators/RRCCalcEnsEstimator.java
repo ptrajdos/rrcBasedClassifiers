@@ -14,7 +14,7 @@ import weka.core.UtilsPT;
 import weka.estimators.density.BoundedEstimator;
 import weka.estimators.density.DensityEstimator;
 import weka.estimators.density.SimpleKernelEstimator;
-import weka.estimators.density.bandwidthFinders.MaximalSmoothingPrincipleBandwidthSelectionKernel;
+import weka.estimators.density.bandwidthFinders.MaximalSmoothingPrincipleBandwidthSelectionKernelEstimator;
 import weka.estimators.density.tools.ROIFinder;
 import weka.tools.SerialCopier;
 import weka.tools.numericIntegration.Function;
@@ -43,7 +43,7 @@ public class RRCCalcEnsEstimator implements RRCCalcEns, Serializable, OptionHand
 	 */
 	public RRCCalcEnsEstimator() {
 		BoundedEstimator bKernel = new BoundedEstimator();
-		bKernel.setKernEstim(new MaximalSmoothingPrincipleBandwidthSelectionKernel());
+		bKernel.setKernEstim(new MaximalSmoothingPrincipleBandwidthSelectionKernelEstimator());
 		this.estimator = bKernel;
 	}
 	

@@ -95,6 +95,13 @@ public class BetaEstimator extends AEstimator {
 	public void setEps(double eps) {
 		this.eps = eps;
 	}
+
+
+	@Override
+	public void reset() {
+		this.isInitialised = false;
+		
+	}
 	
 	
 	

@@ -82,4 +82,11 @@ public class TruncatedNormalEstimator extends AEstimator {
 	}
 
 
+	@Override
+	public void reset() {
+		this.isInitialised = false;
+		
+	}
+
+
 }
