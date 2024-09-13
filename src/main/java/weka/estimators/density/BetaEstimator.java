@@ -21,12 +21,10 @@ import weka.core.UtilsPT;
  * Class that estimates Beta distribution PDF and CDF using moments method.
  * @author pawel trajdos
  * @since 1.0.0
- * @version 1.0.0
+ * @version 1.1.2
  *
  */
 
-//TODO Test failures. Problems with low wariance parameter estimation.
-//TODO Problem with Inf values at the end of the [0,1] interval
 public class BetaEstimator extends AEstimator {
 
 	/**

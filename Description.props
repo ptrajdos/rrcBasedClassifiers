@@ -6,10 +6,10 @@
 PackageName= RRCBasedClassifiers
 
 # Version (required)
-Version=1.1.1
+Version=1.1.2
 
 #Date
-Date=2020-11-09
+Date=2024-09-13
 
 # Title (required)
 Title= RRC - based classifiers

@@ -6,7 +6,7 @@
 
    <groupId>com.github.ptrajdos</groupId>
    <artifactId>RRCBasedClassifiers</artifactId>
-   <version>1.1.1</version>
+   <version>1.1.2</version>
    
    <name>RRCBasedClassifiers</name>
    <description> The package contains the the implementation of classifiers that uses the RRC meta-classifier. </description>
