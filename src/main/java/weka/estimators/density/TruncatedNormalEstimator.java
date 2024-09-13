@@ -3,6 +3,8 @@
  */
 package weka.estimators.density;
 
+import java.util.LinkedList;
+
 import weka.classifiers.meta.RRC.calculators.TruncatedNormal;
 import weka.core.Utils;
 import weka.core.UtilsPT;
@@ -57,6 +59,10 @@ public class TruncatedNormalEstimator extends AEstimator {
 	@Override
 	public double getPDF(double x) {
 		this.calculateDistribution();
+		if(this.getValues().length == 0 ) {
+			//For compatibility with Kernel estimators!
+			return Double.NaN;
+		}
 		return this.tNormalDistr.density(x, false);
 	}
 
@@ -66,6 +72,10 @@ public class TruncatedNormalEstimator extends AEstimator {
 	@Override
 	public double getCDF(double x) {
 		this.calculateDistribution();
+		if(this.getValues().length == 0 ) {
+			//For compatibility with Kernel estimators!
+			return Double.NaN;
+		}
 		return this.tNormalDistr.cumulative(x);
 	}
 	
@@ -85,6 +95,7 @@ public class TruncatedNormalEstimator extends AEstimator {
 	@Override
 	public void reset() {
 		this.isInitialised = false;
+		this.samples = new LinkedList<>();
 		
 	}
 

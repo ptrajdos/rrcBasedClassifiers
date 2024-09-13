@@ -6,6 +6,7 @@ import weka.core.DistanceFunctionTest;
 import weka.core.Instance;
 import weka.core.Instances;
 import weka.tools.data.RandomDataGenerator;
+import weka.core.distances.ClassFreqModifiedDistance;
 
 public class ClassFreqModifiedDistanceTest extends DistanceFunctionTest {
 

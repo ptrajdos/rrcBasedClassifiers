@@ -1,6 +1,7 @@
 package weka.estimators.density;
 
 import weka.core.Utils;
+import weka.estimators.density.TruncatedNormalEstimator;
 
 public class TruncatedNormalEstimatorTest extends DensEstimatorTest {
 

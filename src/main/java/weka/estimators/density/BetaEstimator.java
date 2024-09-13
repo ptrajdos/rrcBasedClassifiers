@@ -3,6 +3,8 @@
  */
 package weka.estimators.density;
 
+import java.util.LinkedList;
+
 import net.sourceforge.jdistlib.Beta;
 import weka.core.Utils;
 import weka.core.UtilsPT;
@@ -44,6 +46,11 @@ public class BetaEstimator extends AEstimator {
 	@Override
 	public double getPDF(double x) {
 		this.calculateParameters();
+		
+		if(this.getValues().length == 0 ) {
+			//For compatibility with Kernel estimators!
+			return Double.NaN;
+		}
 		double origDens =this.betaDist.density(x, false);
 		double density = Double.isInfinite(origDens)? Double.MAX_VALUE:origDens;
 		return density;
@@ -55,6 +62,10 @@ public class BetaEstimator extends AEstimator {
 	@Override
 	public double getCDF(double x) {
 		this.calculateParameters();
+		if(this.getValues().length == 0 ) {
+			//For compatibility with Kernel estimators!
+			return Double.NaN;
+		}
 		return this.betaDist.cumulative(x);
 	}
 
@@ -66,10 +77,16 @@ public class BetaEstimator extends AEstimator {
 		double beta;
 		
 		double[] vals = this.listToArray();
+		if(vals.length == 0) {
+			this.betaDist = new Beta(0, 0);
+			this.isInitialised = true;
+			return;
+		}
 		
 		double mean = Utils.mean(vals);
 		double var = UtilsPT.var(vals);
-		
+		//TODO not so accurate for small sample [0,1]
+		//TODO maybe implement using max likelihood?
 		alpha = mean * ( (mean*(1.0 - mean)+this.eps)/(var + this.eps) - 1.0);
 		beta = (1.0 - mean) * ( (mean*(1.0 - mean)+this.eps)/(var + this.eps) - 1.0);
 		
@@ -100,6 +117,7 @@ public class BetaEstimator extends AEstimator {
 	@Override
 	public void reset() {
 		this.isInitialised = false;
+		this.samples = new LinkedList<>();
 		
 	}
 	

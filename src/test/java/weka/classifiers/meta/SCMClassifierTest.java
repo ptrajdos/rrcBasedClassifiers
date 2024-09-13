@@ -4,6 +4,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 import weka.classifiers.Classifier;
 import weka.classifiers.meta.RRC.RRCBasedWithValidationTest;
+import weka.classifiers.meta.SCMClassifier;
 
 public class SCMClassifierTest extends RRCBasedWithValidationTest {
 

@@ -7,6 +7,7 @@ import weka.classifiers.Classifier;
 import weka.core.Instance;
 import weka.core.Instances;
 import weka.tools.data.WellSeparatedSquares;
+import weka.classifiers.meta.SCMClassifierADWIN;
 
 public class SCMClassifierADWINTest extends SCMClassifierTest {
 

@@ -3,6 +3,7 @@ package weka.classifiers.meta;
 import weka.classifiers.AbstractClassifierTest;
 import weka.classifiers.Classifier;
 import weka.tools.tests.WekaGOEChecker;
+import weka.classifiers.meta.UniformClassifier;
 
 public class UniformClassifierTest extends AbstractClassifierTest {
 
