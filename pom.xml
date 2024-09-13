@@ -134,7 +134,7 @@
     <dependency>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-math3</artifactId>
-    <version>3.2</version>
+    <version>3.6.1</version>
     </dependency>
     
     <dependency>
@@ -431,17 +431,13 @@
         </executions>
       </plugin>
 
-      <plugin>
+       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>3.4.1</version>
         <configuration>
-          <maxmemory>256m</maxmemory>
-          <subpackages>weka:org</subpackages>
           <show>public</show>
           <outputDirectory>${project.basedir}/doc</outputDirectory>
-          <!-- when using Java 8, use this setting to avoid overly strict javadoclet -->
-          <additionalparam>-Xdoclint:none</additionalparam>
         </configuration>
         <executions>
           <execution>
@@ -449,9 +445,6 @@
             <goals>
               <goal>jar</goal>
             </goals>
-            <configuration> <!-- add this to disable checking -->
-                <additionalparam>-Xdoclint:none</additionalparam>
-            </configuration>
           </execution>
         </executions>
       </plugin>
